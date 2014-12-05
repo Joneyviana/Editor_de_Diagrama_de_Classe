@@ -27,5 +27,11 @@
             id="editor.wizards.SampleNewWizard">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.uml2.uml.dynamic_package">
+      <profile
+            uri="editor.profile1">
+      </profile>
+   </extension>
 
 </plugin>

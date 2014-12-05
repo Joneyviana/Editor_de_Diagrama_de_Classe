@@ -1,12 +1,15 @@
 package editor.editors;
 
+
 import org.eclipse.swt.graphics.GC;
-
-
 public class AssociacaoSimples implements Style{
 	public linha l;
+
+	
 	@Override
 	public void addfeature(GC gc, linha l) {
+		
+		
 		int x = l.ponto_fim.x;
 		int y = l.ponto_fim.y;
 		float seno = l.getseno();

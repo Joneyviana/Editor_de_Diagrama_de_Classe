@@ -59,7 +59,8 @@ public class retangulo extends Composite implements PaintListener, MouseListener
   public void definir_ponto(int x1 ,int y1 ){
 	  this.x = x1 ;
 	  this.y = y1 ;
-	   busyCursor = new Cursor(Display.getCurrent(), SWT.CURSOR_SIZEWE);
+	  UmlHandlefile u = new UmlHandlefile(); 
+	  busyCursor = new Cursor(Display.getCurrent(), SWT.CURSOR_SIZEWE);
 	   aumentacursor = new Cursor(Display.getCurrent(), SWT.CURSOR_SIZENS);
 	   setLocation(x, y);
 	   setSize(width, height);
