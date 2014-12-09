@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.DirectedRelationship;
@@ -45,7 +44,6 @@ import org.eclipse.uml2.uml.VisibilityKind;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -64,38 +62,35 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.uml2.uml.Package;
 
 public class UmlHandlefile {
-	
-	private ArrayList<Class> classes = new ArrayList<>();
-	
-	public static XMIResource resource ;
-	private Model sampleModel ;
+	private static final ResourceSet RESOURCE_SET = new ResourceSetImpl();
+	public static  File outputFile;
+    
+	public UmlHandlefile(){
 
-	public void init(){
-		 if (resource.getContents().isEmpty()){
-			 System.out.print("sdgfsdfsdfsdfsdfsdfdsdf");   
-			 sampleModel =  UMLFactory.eINSTANCE.createModel();
-		    	resource.getContents().add( sampleModel );  
-		    }else{
-		    	 System.out.print("eywrweuryyyuuiu");	
-		    	sampleModel = (Model) resource.getContents().get(0);
-		    	}
+	 Model sampleModel = UMLFactory.eINSTANCE.createModel();
+	    sampleModel.setName( "Sample Model" );
+	org.eclipse.uml2.uml.Class classe =  sampleModel.createOwnedClass("buceta", true);
+	org.eclipse.uml2.uml.Class classe1 =  sampleModel.createOwnedClass("piru", true);
+	Property prop =  classe.createOwnedAttribute("gdgdf", new TypeImpl() {
+	
+    });
+	prop.setType(classe1);
+	//pack.createOwnedClass("vegeta", true);
+   
+    URI outputUri = URI.createFileURI( outputFile.getAbsolutePath() );
+    XMIResource resource = new XMIResourceImpl(outputUri);
+    resource.setID(classe,"ereterer" );
+    resource.setID(classe1,"peixinho" );
+    resource.setModified(true);
+    resource.setXMIVersion("20110701");
+    resource.getContents().add( sampleModel );
+    
+    try {
+		resource.save( null );
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	}
-	
-	private void save(){
-   
-    	try {
-			resource.save( null );
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-	 }
- 
-public void addclasse(){
-    classes.add(sampleModel.createOwnedClass("Class"+classes.size(), false));
-   
-    resource.setID(classes.get(classes.size()-1), Integer.toString(classes.size()));
-    save();
-}
-}
+ }
+ }

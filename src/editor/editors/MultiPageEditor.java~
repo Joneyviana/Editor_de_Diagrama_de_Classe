@@ -72,7 +72,6 @@ import org.w3c.dom.css.Rect;
 public class MultiPageEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
 	/** The text editor used in page 0. */
-	public static UmlHandlefile uml = new UmlHandlefile();
 	private ArrayList <Ponto> risco = new ArrayList<>();
     private ArrayList <linha> Menu = new ArrayList<>();
 	private Ponto posicao_direita_inicio;
@@ -125,14 +124,12 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		
        
 		canvas = new Canvas(getContainer(), SWT.NONE);
-         
+         PageDiagrams page = new PageDiagrams(canvas);
          int index = addPage(canvas);
-         System.out.print("piru");
+        
          IFile file =  ((FileEditorInput) this.getEditorInput()).getFile();
-     	 leitor_de_UML.outputFile = new File(file.getLocationURI());
-         leitor_de_UML let = new leitor_de_UML(canvas);
-     	 PageDiagrams page = new PageDiagrams(canvas);
-          setPageText(index, "Properties");
+     	 UmlHandlefile.outputFile = new File(file.getLocationURI());
+        setPageText(index, "Properties");
 	}
 	
 

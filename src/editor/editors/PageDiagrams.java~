@@ -30,7 +30,7 @@ private ArrayList <linha> Menu = new ArrayList<>();
 private Ponto posicao_direita_inicio;
 private boolean pressionado;
 private ArrayList<retangulo> retangulos = new ArrayList<>();
-public  UmlHandlefile uml = MultiPageEditor.uml; 
+private UmlHandlefile uml = new UmlHandlefile();
 public Display display;
 public PageDiagrams( final Canvas canvas){
 	style = new Composicao() ;
@@ -155,7 +155,7 @@ public PageDiagrams( final Canvas canvas){
 			public void widgetSelected(SelectionEvent arg0) {
 			
 						retangulo ret = new retangulo(canvas,SWT.NONE );
-                           uml.addclasse();                    
+                                                ret.uml = uml;
                                                 ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y);
 						retangulos.add(ret);  
                        

@@ -35,10 +35,9 @@ import org.eclipse.swt.widgets.Tracker;
 
 public class retangulo extends Composite implements PaintListener, MouseListener, MouseMoveListener, SelectionListener {
     private Composite composite ;
-       
+    public  UmlHandlefile uml ;    
 private boolean pressionando ; 
-   public retangulo ret ; 
-   public int x =0;
+    public int x =0;
 	public  int y =0;
 	public int width =80;
     public int height = 100;
@@ -62,8 +61,7 @@ private boolean pressionando ;
   public void definir_ponto(int x1 ,int y1 ){
 	  this.x = x1 ;
 	  this.y = y1 ;
-	  ret = this ;
-	 
+	  UmlHandlefile u = new UmlHandlefile(); 
 	  busyCursor = new Cursor(Display.getCurrent(), SWT.CURSOR_SIZEWE);
 	   aumentacursor = new Cursor(Display.getCurrent(), SWT.CURSOR_SIZENS);
 	   setLocation(x, y);
@@ -71,27 +69,13 @@ private boolean pressionando ;
 	   setFocus();
 	   Menus menus = new Menus();
 	   Menu popupMenu = new Menu(this);
-	   menus.addMenuitems(new String[]{"Public","Private","Protected","delete classe"},popupMenu ); 
+	   menus.addMenuitems(new String[]{"Public","Private","Protected"},popupMenu ); 
 	 
 	    Menu lineMenu  = new Menu(popupMenu);
 	    menus.items.get(0).setMenu(lineMenu);
 	    menus.items.get(1).setMenu(lineMenu);
 	    menus.addMenuitems(new String[]{"int","float","String","Long"}, lineMenu);
-		menus.items.get(3).addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent arg0) {
-				ret.dispose();
-				
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-	    menus.addselelectionlistenerMultiplo(new int[]{4, 5,6,7},this);	
+		menus.addselelectionlistenerMultiplo(new int[]{3, 4,5,6},this);	
 
   this.setMenu(popupMenu);
 	   addPaintListener(this);
