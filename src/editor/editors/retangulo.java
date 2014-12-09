@@ -48,6 +48,7 @@ public class retangulo extends Composite implements PaintListener, MouseListener
 	private ArrayList<String> atributos_nomes = new  ArrayList<>();
 	private int position =28;
 	private Cursor aumentacursor;
+	private int redimensionamento =0;
 	public retangulo(Composite parent, int style) {
 	
 		super(parent, style);
@@ -96,14 +97,15 @@ public void paintControl(PaintEvent arg0) {
     arg0.gc.setForeground(arg0.display.getSystemColor(SWT.COLOR_BLACK));
 	arg0.gc.drawRectangle(0, 0, width, height);
     arg0.gc.fillRectangle(1, 1, width-2, height-2);
-    arg0.gc.drawLine(0, (int)(height *0.25),width, (int)(height *0.25));
-    arg0.gc.drawLine(0, (int)(height *0.65),width, (int)(height *0.65));
+    arg0.gc.drawLine(0, 25,width, 25);
+    arg0.gc.drawLine(0, (int)(height *0.65)+redimensionamento,width, (int)(height *0.65)+redimensionamento);
     
     arg0.gc.drawText(string, (int) width/8, (int)(height *0.03));
     int count = 28 ;
     for(String str:atributos_nomes){
 	   arg0.gc.drawText(str, 5, (int)(height *0.03+count));
        count+=17;
+    
     }
     setLocation(x, y);
 	setSize(width, height);
@@ -159,7 +161,9 @@ public void mouseDoubleClick(MouseEvent arg0) {
 
 @Override
 public void mouseDown(MouseEvent arg0) {
+	if (arg0.button == 1){
 	pressionando= true ;
+	}
 	if (text !=null){
 		string = text.getText();  
 	    text.dispose();
@@ -275,9 +279,15 @@ public void widgetSelected(SelectionEvent arg0) {
 	Text text  = new Text(this, SWT.SINGLE);
 	text.setSize(55, 20);
 	text.setLocation(0+10,position);
-	position +=20;
+	position +=17;
+	
+	if (position>=height *0.65+ redimensionamento){
+		redimensionamento = redimensionamento  + 7;
+	    height += redimensionamento;
+	}
 	String str = arg0.getSource().toString();
-	text.setText(str.substring(10,str.length()-1 ));
+	text.setText(str.substring(10,str.length()-1 )+ ":");
+	
 	textos.add(text);
 	text.setFocus();
 }

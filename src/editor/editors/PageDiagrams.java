@@ -9,6 +9,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.LineAttributes;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -29,39 +30,52 @@ private ArrayList <linha> Menu = new ArrayList<>();
 private Ponto posicao_direita_inicio;
 private boolean pressionado;
 private ArrayList<retangulo> retangulos = new ArrayList<>();
+public Display display;
 public PageDiagrams( final Canvas canvas){
-	style = new heranca() ;
+	style = new Composicao() ;
 	 this.canvas = canvas;
 	GridLayout layout = new GridLayout();
 	canvas.setLayoutData(layout);
 	layout.numColumns = 2;
 	
 	int count = 0;
-	
+	  
 			canvas.addPaintListener(new PaintListener() {
 		          private PaintEvent eventodesenho;
-				private Display display;
+				
+				private Object black;
 				
 		         
 		          public void paintControl(PaintEvent e) {
 		        	e.gc.setLineAttributes(new LineAttributes(3));
 		        	e.gc.textExtent("fdf");
 		            
-		        	e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_YELLOW));
+		        	e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_BLACK));
 		            e.gc.setForeground(e.display.getSystemColor(SWT.COLOR_BLACK));
+		            
 		            display = e.display;
-		            
+		          
 		      
-		            
 		           
 		            for (linha line : Menu){
 		            	    
-         
-		         e.gc.drawLine( line.ponto.x, line.ponto.y, line.ponto_fim.x,line.ponto_fim.y );
-		         if (line.ponto.equals(line.ponto_fim)==false){
-		        	
-		        	 line.style_linha.addfeature(e.gc, line);
-		         }
+		            	if (line.style_linha==null){
+			        		 e.gc.setLineStyle(SWT.LINE_DASH);
+			        	 }
+		            	else {
+		            		e.gc.setLineStyle(SWT.LINE_SOLID);
+		            	}
+		            	
+		             if (line.ponto.equals(line.ponto_fim)==false){
+		            	 e.gc.drawLine( (int) (line.ponto.x - 8*line.getcosseno()),(int) (line.ponto.y-10*line.getseno()), line.ponto_fim.x,line.ponto_fim.y );
+		            	 if (line.style_linha==null){
+		            		 AssociacaoSimples assoc = new AssociacaoSimples();
+		            	     assoc.addfeature(e.gc, line);
+		            	 }
+		            	 else {
+		            	 line.style_linha.addfeature(e.gc, line);
+		            	 }
+		            	 }
 		           
 		            }
 			
@@ -117,6 +131,7 @@ public PageDiagrams( final Canvas canvas){
 		}
 	});
    canvas.addListener(SWT.MouseMove, listener);
+   
    canvas.addListener(SWT.MouseUp, new Listener() {
 		
 		@Override
@@ -206,6 +221,55 @@ public PageDiagrams( final Canvas canvas){
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				style = new AssociacaoSimples();
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	    
+	    MenuItem agregacao = new MenuItem(lineMenu, SWT.NONE);
+	    agregacao.setText("Agregação");
+	    agregacao.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				style = new Agregracao();
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	    MenuItem composicao = new MenuItem(lineMenu, SWT.NONE);
+	    composicao.setText("Composição");
+	    composicao.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				style = new Composicao();
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	    MenuItem dependencia = new MenuItem(lineMenu, SWT.NONE);
+	    dependencia.setText("Dependencia");
+	    dependencia.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				style = null ;
 				
 			}
 			
