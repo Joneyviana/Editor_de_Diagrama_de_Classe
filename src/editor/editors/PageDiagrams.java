@@ -3,6 +3,7 @@ package editor.editors;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -29,8 +30,7 @@ private ArrayList <Ponto> risco = new ArrayList<>();
 private ArrayList <linha> Menu = new ArrayList<>();
 private Ponto posicao_direita_inicio;
 private boolean pressionado;
-private ArrayList<retangulo> retangulos = new ArrayList<>();
-public  UmlHandlefile uml = MultiPageEditor.uml; 
+public UmlHandlefile uml = MultiPageEditor.uml; 
 public Display display;
 public PageDiagrams( final Canvas canvas){
 	style = new Composicao() ;
@@ -155,9 +155,10 @@ public PageDiagrams( final Canvas canvas){
 			public void widgetSelected(SelectionEvent arg0) {
 			
 						retangulo ret = new retangulo(canvas,SWT.NONE );
-                           uml.addclasse();                    
-                                                ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y);
-						retangulos.add(ret);  
+                           EObject o = uml.addclasse();                    
+                           ret.o = o;                    
+                           ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y);
+						 
                        
                        
 						int x1 = canvas.getSize().x;

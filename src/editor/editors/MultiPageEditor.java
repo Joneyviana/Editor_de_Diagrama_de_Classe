@@ -92,6 +92,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	private Point ponto_anterior;
 	private Display display ;
 	private Style style = new AssociacaoSimples();
+	public static IFile file;
 	/**
 	 * Creates a multi-page editor example.
 	 */
@@ -128,8 +129,9 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
          
          int index = addPage(canvas);
          System.out.print("piru");
-         IFile file =  ((FileEditorInput) this.getEditorInput()).getFile();
-     	 leitor_de_UML.outputFile = new File(file.getLocationURI());
+         file =  ((FileEditorInput) this.getEditorInput()).getFile();
+     	 
+         leitor_de_UML.outputFile = new File(file.getLocationURI());
          leitor_de_UML let = new leitor_de_UML(canvas);
      	 PageDiagrams page = new PageDiagrams(canvas);
           setPageText(index, "Properties");

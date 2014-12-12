@@ -1,8 +1,13 @@
 package editor.editors;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
+import monitor.SimpleReadFile;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -53,6 +58,7 @@ import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.uml2.uml.Model;
@@ -65,16 +71,20 @@ import org.eclipse.uml2.uml.Package;
 
 public class UmlHandlefile {
 	
-	private ArrayList<Class> classes = new ArrayList<>();
+	private ArrayList<EObject> classes = new ArrayList<>();
 	
 	public static XMIResource resource ;
 	private Model sampleModel ;
 
+	private URI outputUri;
+
 	public void init(){
-		 if (resource.getContents().isEmpty()){
+		 if (resource==null){
 			 System.out.print("sdgfsdfsdfsdfsdfsdfdsdf");   
 			 sampleModel =  UMLFactory.eINSTANCE.createModel();
-		    	resource.getContents().add( sampleModel );  
+			 outputUri =  URI.createFileURI( leitor_de_UML.outputFile.getAbsolutePath() );
+				resource = new XMIResourceImpl(outputUri);	
+			 resource.getContents().add( sampleModel );  
 		    }else{
 		    	 System.out.print("eywrweuryyyuuiu");	
 		    	sampleModel = (Model) resource.getContents().get(0);
@@ -84,18 +94,38 @@ public class UmlHandlefile {
 	private void save(){
    
     	try {
-			resource.save( null );
-		} catch (IOException e) {
+    		resource.save( null );
+    		InputStream  stream = openContentStream();
+    		MultiPageEditor.file.setContents(stream,true, true, null);
+    		
+		} catch (IOException | CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	 }
  
-public void addclasse(){
-    classes.add(sampleModel.createOwnedClass("Class"+classes.size(), false));
-   
-    resource.setID(classes.get(classes.size()-1), Integer.toString(classes.size()));
+private InputStream openContentStream() throws IOException {
+		// TODO Auto-generated method stub
+	String contents =
+			new SimpleReadFile(leitor_de_UML.outputFile.getAbsolutePath()).getText();
+		return new ByteArrayInputStream(contents.getBytes());
+	}
+
+public EObject addclasse(){
+    classes.add( sampleModel.createOwnedClass("Class"+classes.size(), false));
+    
+    Integer indice = classes.size();
+    while(resource.getIDToEObjectMap().containsKey(indice.toString())){
+    	System.out.print("sera que entra");
+    	indice = indice +1 ;
+    }
+    resource.setID(classes.get(classes.size()-1),indice.toString() );
     save();
+  return classes.get(classes.size()-1);
+}
+public void removeclasse(EObject o ){
+   EcoreUtil.delete(o);
+   save();
 }
 }

@@ -4,6 +4,7 @@ package editor.editors;
 
 import java.util.ArrayList;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -51,6 +52,7 @@ private boolean pressionando ;
 	private int position =28;
 	private Cursor aumentacursor;
 	private int redimensionamento =0;
+	public EObject o;
 	public retangulo(Composite parent, int style) {
 	
 		super(parent, style);
@@ -79,9 +81,12 @@ private boolean pressionando ;
 	    menus.addMenuitems(new String[]{"int","float","String","Long"}, lineMenu);
 		menus.items.get(3).addSelectionListener(new SelectionListener() {
 			
+			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				ret.dispose();
+				MultiPageEditor.uml.removeclasse(o);
+	            ret.dispose();
 				
 			}
 			

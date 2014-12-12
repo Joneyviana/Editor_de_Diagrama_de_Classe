@@ -115,6 +115,7 @@ public class SampleNewWizard extends Wizard implements INewWizard {
 				IWorkbenchPage page =
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {
+					
 					IDE.openEditor(page, file, true);
 				} catch (PartInitException e) {
 				}

@@ -38,7 +38,8 @@ public leitor_de_UML(Canvas canvas){
      for (EObject element :root.eContents()){
 	 if( element.getClass().getSimpleName().equals("ClassImpl")){
 	 retangulo ret = 	new retangulo(canvas, SWT.NONE);
-	 System.out.print("ajuda pai");
+	ret.o = element ;
+	 
 	 ret.definir_ponto(x, y);	
 	 x  = x+ 130 ;
 	 if( x  >=600) {
@@ -50,7 +51,8 @@ public leitor_de_UML(Canvas canvas){
 	 }
 	 }
 	 } catch (IOException e) {
-		// TODO Auto-generated catch block
+		 MultiPageEditor.uml.init();
+		 // TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 }

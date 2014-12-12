@@ -6,7 +6,7 @@
          point="org.eclipse.ui.editors">
       <editor
             name="Sample Multi-page Editor"
-            extensions="mpe"
+            extensions="uml"
             icon="icons/sample.gif"
             contributorClass="editor.editors.MultiPageEditorContributor"
             class="editor.editors.MultiPageEditor"
