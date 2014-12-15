@@ -87,7 +87,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	private ArrayList<retangulo> retangulos = new ArrayList<>();
 	private int Count = 0 ;
 	private StyledText text;
-	private Canvas canvas;
+	private Tela canvas;
 	private Button fontButton;
 	private Point ponto_anterior;
 	private Display display ;
@@ -125,7 +125,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		
 		
        
-		canvas = new Canvas(getContainer(), SWT.NONE);
+		canvas = new Tela(getContainer(), SWT.NONE);
          
          int index = addPage(canvas);
          System.out.print("piru");

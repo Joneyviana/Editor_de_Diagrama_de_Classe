@@ -24,7 +24,7 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class PageDiagrams {
 
-private Canvas canvas;
+private  Tela  canvas;
 private Style style;
 private ArrayList <Ponto> risco = new ArrayList<>();
 private ArrayList <linha> Menu = new ArrayList<>();
@@ -32,7 +32,7 @@ private Ponto posicao_direita_inicio;
 private boolean pressionado;
 public UmlHandlefile uml = MultiPageEditor.uml; 
 public Display display;
-public PageDiagrams( final Canvas canvas){
+public PageDiagrams( final Tela canvas){
 	style = new Composicao() ;
 	 this.canvas = canvas;
 	GridLayout layout = new GridLayout();
@@ -156,6 +156,7 @@ public PageDiagrams( final Canvas canvas){
 			
 						retangulo ret = new retangulo(canvas,SWT.NONE );
                            EObject o = uml.addclasse();                    
+                           
                            ret.o = o;                    
                            ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y);
 						 

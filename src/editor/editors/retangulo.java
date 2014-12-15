@@ -20,6 +20,10 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.GCData;
 import org.eclipse.swt.graphics.LineAttributes;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
@@ -48,10 +52,10 @@ private boolean pressionando ;
 	public Label label;
 	private String string = "Class";
 	public ArrayList<Text> textos = new ArrayList<>();
-	private ArrayList<String> atributos_nomes = new  ArrayList<>();
+	public ArrayList<String> atributos_nomes = new  ArrayList<>();
 	private int position =28;
 	private Cursor aumentacursor;
-	private int redimensionamento =0;
+	public int redimensionamento =0;
 	public EObject o;
 	public retangulo(Composite parent, int style) {
 	
@@ -76,10 +80,15 @@ private boolean pressionando ;
 	   menus.addMenuitems(new String[]{"Public","Private","Protected","delete classe"},popupMenu ); 
 	 
 	    Menu lineMenu  = new Menu(popupMenu);
+	    Menu Protected = new Menu(popupMenu);
+	    Menu Private = new Menu(popupMenu);
 	    menus.items.get(0).setMenu(lineMenu);
-	    menus.items.get(1).setMenu(lineMenu);
-	    menus.addMenuitems(new String[]{"int","float","String","Long"}, lineMenu);
-		menus.items.get(3).addSelectionListener(new SelectionListener() {
+	    menus.items.get(1).setMenu(Private);;
+	    menus.items.get(2).setMenu(Protected);
+	    menus.addMenuitems(new String[]{"+int","+float","+String","+Long","+boolean"}, lineMenu);
+	    menus.addMenuitems(new String[]{"#int","#float","#String","#Long","#boolean"}, Protected);
+	    menus.addMenuitems(new String[]{"-int","-float","-String","-Long","-boolean"}, Private);
+	    menus.items.get(3).addSelectionListener(new SelectionListener() {
 			
 			
 
@@ -96,7 +105,7 @@ private boolean pressionando ;
 				
 			}
 		});
-	    menus.addselelectionlistenerMultiplo(new int[]{4, 5,6,7},this);	
+	    menus.addselelectionlistenerMultiplo(new int[]{4, 5,6,7,8,9,10,11,12,13,14,15},this);	
 
   this.setMenu(popupMenu);
 	   addPaintListener(this);
@@ -121,46 +130,32 @@ public void paintControl(PaintEvent arg0) {
     arg0.gc.fillRectangle(1, 1, width-2, height-2);
     arg0.gc.drawLine(0, 25,width, 25);
     arg0.gc.drawLine(0, (int)(height *0.65)+redimensionamento,width, (int)(height *0.65)+redimensionamento);
-    
+    FontData fo = new FontData("helvetica", 11, SWT.BOLD);
+	
+    arg0.gc.setFont(new Font(new Device() {
+		
+		@Override
+		public long internal_new_GC(GCData arg0) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		
+		@Override
+		public void internal_dispose_GC(long arg0, GCData arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+	},fo ));
     arg0.gc.drawText(string, (int) width/8, (int)(height *0.03));
     int count = 28 ;
     for(String str:atributos_nomes){
 	   arg0.gc.drawText(str, 5, (int)(height *0.03+count));
-       count+=17;
+       count+=20;
     
     }
     setLocation(x, y);
 	setSize(width, height);
-    //label = new Label(this, SWT.NONE);
-    //label.setText("Class");
-    
-    //label.setBackground(arg0.gc.getBackground());
-    //label.setLocation(0+10,3);
-    //label.setSize(55, 20);
-    
-    //text = new Text(this, SWT.SINGLE);
-    //text.setBackground(arg0.gc.getBackground()); 
-    //text.setLocation(0+10,3);
- 	
- // text.setSize(55, 20);
 	
- /*text.addFocusListener(new FocusListener() {
-	 	
-		@Override
-		public void focusLost(FocusEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public void focusGained(FocusEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-	});
-	*/
-	
-	 
 }
 
 
@@ -172,8 +167,9 @@ public void mouseDoubleClick(MouseEvent arg0) {
     redraw();
 	if ((arg0.x>= 10)&&(arg0.y<=25)){
 		text = new Text(this,SWT.SINGLE);
-	    text.setSize(55, 20);
-		text.setLocation(0+10,3);
+	    text.setSize(width-4, 20);
+		text.setLocation(2,3);
+		 text.setSelection(text.getText().length());
 		text.setFocus();
 	    
 	}
@@ -192,8 +188,11 @@ public void mouseDown(MouseEvent arg0) {
 	    text = null ;
 	}
 	    for (Text text : textos){
-			atributos_nomes.add(text.getText());
-		    text.dispose();
+			if(text.getCharCount()*8 >= width);
+			    width = text.getCharCount()*8;
+	    	atributos_nomes.add(text.getText());
+			MultiPageEditor.uml.addProperty(text.getText(),o);
+			text.dispose();
 		}
 		textos.clear();
 	    redraw();
@@ -296,23 +295,25 @@ public void widgetDefaultSelected(SelectionEvent arg0) {
 
 @Override
 public void widgetSelected(SelectionEvent arg0) {
-	System.out.print("Oque euto procurando:"+arg0.getSource());
-	arg0.getSource().toString();
+    arg0.getSource().toString();
 	Text text  = new Text(this, SWT.SINGLE);
-	text.setSize(55, 20);
-	text.setLocation(0+10,position);
-	position +=17;
+	text.setSize(width-4, 20);
+	text.setLocation(2,position);
+	ajustesize();
 	
-	if (position>=height *0.65+ redimensionamento){
-		redimensionamento = redimensionamento  + 7;
-	    height += redimensionamento;
-	}
 	String str = arg0.getSource().toString();
 	text.setText(str.substring(10,str.length()-1 )+ ":");
-	
+	text.setSelection(text.getText().length());
 	textos.add(text);
 	text.setFocus();
 }
-
+public void ajustesize(){
+position +=20;
+	
+	if (position>=height/1.6+redimensionamento){
+		redimensionamento = redimensionamento  + 7;
+	    height += redimensionamento;
+	}
+}
 }
 
