@@ -17,7 +17,12 @@ public  void setstyle(Style style){
 	style_linha = style ;	
     
 }
-
+public static boolean ispontodentrodequadrado(Ponto p ,int x , int y  ,int  width , int height ){
+	if ((p.x>=x)&&(p.y>=y)&&(p.x<=x+width)&&(p.y<=y+height))
+	return true ;
+	else 
+		return false ;
+}
 
 public float gethipotenusa(){
 	return (float) Math.sqrt(Math.pow(Math.abs(ponto_fim.x - ponto.x),2)+ Math.pow(Math.abs(ponto_fim.y - ponto.y),2));
@@ -28,4 +33,6 @@ public float getseno(){
 public float getcosseno(){
 	return ((ponto_fim.x-ponto.x)/gethipotenusa());
 }
+
+
 }

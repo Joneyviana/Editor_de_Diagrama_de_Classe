@@ -3,7 +3,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 
 
-public class Composicao implements Style {
+public class Composicao extends Style {
 
 	@Override
 	public void addfeature(GC gc, linha l) {
@@ -11,7 +11,8 @@ public class Composicao implements Style {
 		int y = l.ponto_fim.y;
 		float seno = l.getseno();
 		float cosseno = l.getcosseno();
-		
+		po.x = (int) (x+20*cosseno);
+		po.y =(int) (y+20*seno);
 		int[] array = {(int) ((x-8*seno)+10*cosseno), (int) ((y+8*cosseno)+10*seno),(int) (x+20*cosseno), (int) (y+20*seno)
 				,(int) ((x+8*seno)+10*cosseno), (int) ((y-8*cosseno)+10*seno)	, x , y	
 		};

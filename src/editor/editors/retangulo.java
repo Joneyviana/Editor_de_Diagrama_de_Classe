@@ -43,6 +43,7 @@ public class retangulo extends Composite implements PaintListener, MouseListener
        
 private boolean pressionando ; 
    public retangulo ret ; 
+   public static retangulo entrou_em= null ;
    public int x =0;
 	public  int y =0;
 	public int width =80;
@@ -50,7 +51,7 @@ private boolean pressionando ;
 	private Cursor busyCursor;
 	public Text text;
 	public Label label;
-	private String string = "Class";
+	public String string = "Class";
 	public ArrayList<Text> textos = new ArrayList<>();
 	public ArrayList<String> atributos_nomes = new  ArrayList<>();
 	private int position =28;
@@ -111,6 +112,23 @@ private boolean pressionando ;
 	   addPaintListener(this);
 	  addMouseListener(this);
 	  addMouseMoveListener(this);
+      this.addListener(SWT.MouseHover, new Listener() {
+		
+		@Override
+		public void handleEvent(Event arg0) {
+			System.out.print("hover");
+			entrou_em = ret ;
+			
+		}
+	});
+  this.addListener(SWT.MouseExit, new Listener() {
+	
+	@Override
+	public void handleEvent(Event arg0) {
+		entrou_em = null ;
+		
+	}
+});
   }
 public void checkSubclass(){
 	
@@ -123,11 +141,11 @@ public void paintControl(PaintEvent arg0) {
 	
 	
 
-	arg0.gc.setLineAttributes(new LineAttributes(3));
+	arg0.gc.setLineAttributes(new LineAttributes(4));
 	arg0.gc.setBackground(arg0.display.getSystemColor(SWT.COLOR_YELLOW));
     arg0.gc.setForeground(arg0.display.getSystemColor(SWT.COLOR_BLACK));
-	arg0.gc.drawRectangle(0, 0, width, height);
-    arg0.gc.fillRectangle(1, 1, width-2, height-2);
+	arg0.gc.drawRectangle(0, 0, width-1, height-1);
+    arg0.gc.fillRectangle(2, 2, width-4, height-4);
     arg0.gc.drawLine(0, 25,width, 25);
     arg0.gc.drawLine(0, (int)(height *0.65)+redimensionamento,width, (int)(height *0.65)+redimensionamento);
     FontData fo = new FontData("helvetica", 11, SWT.BOLD);
@@ -208,7 +226,7 @@ public void mouseUp(MouseEvent arg0) {
 	
 	
 	pressionando = false ;
-
+    
 }
 
 @Override
@@ -216,10 +234,14 @@ public void mouseMove(MouseEvent arg0) {
 // if(getCursor().equals(busyCursor)){
 	 
  //}
-	if ((arg0.x>= width-5)||(arg0.x<=5)){
-		this.setCursor(busyCursor);
-		if (pressionando){
-			
+	if ((arg0.x>= width-6)||(arg0.x<=6)){
+		if (((arg0.x>= width-3)||(arg0.x<=3))&&(pressionando==false)){
+		((Tela)this.getParent()).inicio_associacao = this;
+		}		
+		else {
+			this.setCursor(busyCursor);
+			if (pressionando){
+			  
 			       
 		        Tracker tracker = new Tracker(composite, SWT.RESIZE|SWT.LEFT|SWT.RIGHT);
 		    	tracker.setRectangles(new Rectangle[] { new Rectangle(x-1, y-1, width+1,height+1), });
@@ -233,11 +255,16 @@ public void mouseMove(MouseEvent arg0) {
 		    	redraw();
 			
 	}
+		}
 	}
 		
 	else{
-		if ((arg0.y>= height-5)||(arg0.y<=5)){
-			this.setCursor(aumentacursor);
+		if ((arg0.y>= height-6)||(arg0.y<=6)){
+			if (((arg0.y>= height-3)||(arg0.y<=3))&&(pressionando==false)){
+				((Tela)this.getParent()).inicio_associacao = this;
+				}		
+				else {
+					this.setCursor(busyCursor);
 			if (pressionando){
 				
 				       
@@ -252,7 +279,8 @@ public void mouseMove(MouseEvent arg0) {
 			    	
 			    	redraw();
 			}
-		}
+				}
+				}
 			    	else {
 			
 			this.setCursor(null);

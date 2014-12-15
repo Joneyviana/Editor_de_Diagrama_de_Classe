@@ -82,7 +82,7 @@ public class UmlHandlefile {
 			   
 				resource.getContents().add( sampleModel );  
 		    }else{
-		    	 System.out.print("eywrweuryyyuuiu");	
+		    		
 		    	sampleModel = (Model) resource.getContents().get(0);
 		        
 		    }

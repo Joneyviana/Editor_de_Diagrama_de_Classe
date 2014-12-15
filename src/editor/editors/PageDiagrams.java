@@ -24,27 +24,32 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class PageDiagrams {
 
-private  Tela  canvas;
+public  Tela  canvas;
 private Style style;
 private ArrayList <Ponto> risco = new ArrayList<>();
 private ArrayList <linha> Menu = new ArrayList<>();
+public ArrayList<retangulo> rets = new ArrayList<>();
 private Ponto posicao_direita_inicio;
 private boolean pressionado;
 public UmlHandlefile uml = MultiPageEditor.uml; 
 public Display display;
+private PageDiagrams page ;
+private AssociacaoSimples assoc;
 public PageDiagrams( final Tela canvas){
 	style = new Composicao() ;
 	 this.canvas = canvas;
 	GridLayout layout = new GridLayout();
 	canvas.setLayoutData(layout);
 	layout.numColumns = 2;
-	
+	page = this;
 	int count = 0;
 	  
 			canvas.addPaintListener(new PaintListener() {
 		          private PaintEvent eventodesenho;
 				
 				private Object black;
+
+				
 				
 		         
 		          public void paintControl(PaintEvent e) {
@@ -70,11 +75,13 @@ public PageDiagrams( final Tela canvas){
 		             if (line.ponto.equals(line.ponto_fim)==false){
 		            	 e.gc.drawLine( (int) (line.ponto.x - 8*line.getcosseno()),(int) (line.ponto.y-10*line.getseno()), line.ponto_fim.x,line.ponto_fim.y );
 		            	 if (line.style_linha==null){
-		            		 AssociacaoSimples assoc = new AssociacaoSimples();
+		            		 assoc = new AssociacaoSimples();
 		            	     assoc.addfeature(e.gc, line);
+		            	    
 		            	 }
 		            	 else {
 		            	 line.style_linha.addfeature(e.gc, line);
+		            	 
 		            	 }
 		            	 }
 		           
@@ -92,7 +99,9 @@ public PageDiagrams( final Tela canvas){
         
        	count +=1;
        	if ((pressionado == true)&&(count%4==0)){
-       	Ponto ponto = new Ponto();	
+       	   if(canvas.inicio_associacao!=null){
+       		 
+       	   Ponto ponto = new Ponto();	
        	ponto.x = e.x ;
        	ponto.y = e.y ;
            risco.add(ponto);
@@ -103,8 +112,12 @@ public PageDiagrams( final Tela canvas){
        	Menu.get(Menu.size()-1).ponto_fim.y = risco.get(risco.size()-1).y;
        	canvas.redraw();
        	}
+       	   }
+       	   }
+       	else {
+       		
+       		
        	}
-       
        }
        };
    canvas.addListener(SWT.MouseDown, new	Listener() {
@@ -113,7 +126,7 @@ public PageDiagrams( final Tela canvas){
 
 		@Override
 		public void handleEvent(Event arg0) {
-			System.out.print("que capeta é esse");
+			
 			linha line = new linha();
 			line.setstyle(style);
 			line.ponto = new Ponto();
@@ -128,6 +141,7 @@ public PageDiagrams( final Tela canvas){
 			}
 			else{    	
 			pressionado = true ;
+			
 			}
 		}
 	});
@@ -138,7 +152,11 @@ public PageDiagrams( final Tela canvas){
 		@Override
 		public void handleEvent(Event arg0) {
 			pressionado = false ;
-			
+			canvas.inicio_associacao = null;
+			if (Menu.get(Menu.size()-1).style_linha==null)
+			assoc.verfificaretangulo(page);
+			else 
+				Menu.get(Menu.size()-1).style_linha.verfificaretangulo(page);
 		}
 	});
   
@@ -158,8 +176,9 @@ public PageDiagrams( final Tela canvas){
                            EObject o = uml.addclasse();                    
                            
                            ret.o = o;                    
+                           rets.add(ret);
                            ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y);
-						 
+						     
                        
                        
 						int x1 = canvas.getSize().x;
