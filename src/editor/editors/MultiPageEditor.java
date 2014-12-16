@@ -128,12 +128,12 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		canvas = new Tela(getContainer(), SWT.NONE);
          
          int index = addPage(canvas);
-         System.out.print("piru");
+         
          file =  ((FileEditorInput) this.getEditorInput()).getFile();
      	 
          leitor_de_UML.outputFile = new File(file.getLocationURI());
          leitor_de_UML let = new leitor_de_UML(canvas);
-     	 PageDiagrams page = new PageDiagrams(canvas);
+     	 
           setPageText(index, "Properties");
 	}
 	

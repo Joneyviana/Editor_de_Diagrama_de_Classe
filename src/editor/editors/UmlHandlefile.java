@@ -64,7 +64,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 
 public class UmlHandlefile {
 	
-	private ArrayList<Class> classes = new ArrayList<>();
+	public ArrayList<EObject> classes = new ArrayList<>();
 	
 	public static XMIResource resource ;
 	private Model sampleModel ;
@@ -163,8 +163,12 @@ public Type handletype(String text){
 	
 	
 	resource.getContents().add(dat.get(dat.size()-1));
-	resource.setID(dat.get(dat.size()-1), text.substring(0, text.indexOf(":")));
+	resource.setID(dat.get(dat.size()-1), text.substring(1, text.indexOf(":")));
 	return dat.get(dat.size()-1);
 	
 }
+  public void setName(String text , EObject o){
+	 ((ClassImpl) classes.get(classes.indexOf(o))).setName(text);
+     save();
+  }
 }

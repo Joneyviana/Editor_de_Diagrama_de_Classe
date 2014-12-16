@@ -189,7 +189,7 @@ public void mouseDoubleClick(MouseEvent arg0) {
 		text.setLocation(2,3);
 		 text.setSelection(text.getText().length());
 		text.setFocus();
-	    
+	   
 	}
 	}
 
@@ -202,7 +202,8 @@ public void mouseDown(MouseEvent arg0) {
 	}
 	if (text !=null){
 		string = text.getText();  
-	    text.dispose();
+		
+		text.dispose();
 	    text = null ;
 	}
 	    for (Text text : textos){
@@ -212,9 +213,10 @@ public void mouseDown(MouseEvent arg0) {
 			MultiPageEditor.uml.addProperty(text.getText(),o);
 			text.dispose();
 		}
-		textos.clear();
+	    MultiPageEditor.uml.setName(string, o); 
+	    textos.clear();
 	    redraw();
-	
+	    
 		
 		
 }

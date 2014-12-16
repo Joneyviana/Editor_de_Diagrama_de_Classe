@@ -27,8 +27,8 @@ public class PageDiagrams {
 public  Tela  canvas;
 private Style style;
 private ArrayList <Ponto> risco = new ArrayList<>();
-private ArrayList <linha> Menu = new ArrayList<>();
-public ArrayList<retangulo> rets = new ArrayList<>();
+public ArrayList <linha> Menu = new ArrayList<>();
+public static ArrayList<retangulo> rets = new ArrayList<>();
 private Ponto posicao_direita_inicio;
 private boolean pressionado;
 public UmlHandlefile uml = MultiPageEditor.uml; 
@@ -73,8 +73,13 @@ public PageDiagrams( final Tela canvas){
 		            	}
 		            	
 		             if (line.ponto.equals(line.ponto_fim)==false){
+		            	 System.out.println("incio_x:"+line.ponto.x);
+		            	 System.out.println("incio_y:"+line.ponto.y);
+		            	 System.out.println("fim_x:"+line.ponto_fim.x);
+		            	 System.out.println("fim.y:"+line.ponto_fim.y);
 		            	 e.gc.drawLine( (int) (line.ponto.x - 8*line.getcosseno()),(int) (line.ponto.y-10*line.getseno()), line.ponto_fim.x,line.ponto_fim.y );
 		            	 if (line.style_linha==null){
+		            		 System.out.println("Quanos por favor quantos");  
 		            		 assoc = new AssociacaoSimples();
 		            	     assoc.addfeature(e.gc, line);
 		            	    

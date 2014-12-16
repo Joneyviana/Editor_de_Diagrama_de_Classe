@@ -2,28 +2,39 @@ package editor.editors;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLMapImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.internal.impl.AssociationImpl;
+import org.eclipse.uml2.uml.internal.impl.ClassImpl;
+import org.eclipse.uml2.uml.internal.impl.ClassifierImpl;
+import org.eclipse.uml2.uml.internal.impl.TypeImpl;
+
 public class leitor_de_UML {
 	private static final ResourceSet RESOURCE_SET = new ResourceSetImpl();
 	public static  File outputFile;
 	
 	private  URI outputUri ;
 	private XMIResource resource ;
+	private EPackage ePackage;
 public leitor_de_UML(Tela canvas){
 	outputUri =  URI.createFileURI( outputFile.getAbsolutePath() );
 	resource = new XMIResourceImpl(outputUri);
-    
+	PageDiagrams page = new PageDiagrams(canvas);
 	try {
 		
 		resource.load(null);
@@ -36,20 +47,13 @@ public leitor_de_UML(Tela canvas){
      int y = 50 ;
      
      for (EObject element :root.eContents()){
-	 if( element.getClass().getSimpleName().equals("ClassImpl")){
+    	 System.out.print(element.getClass().getSimpleName());
+    	 if( element.getClass().getSimpleName().equals("ClassImpl")){
 	 retangulo ret = 	new retangulo(canvas, SWT.NONE);
-	ret.o = element ;
+    
 	 
-	
-	 element.eClass();
-	 for ( EObject ele :element.eContents()) {
-		System.out.print(ele.getClass().getSimpleName());
-		 if (ele.getClass().getSimpleName().equals("PropertyImpl")){
-			Property pro = (Property) ele;
-			ret.ajustesize();
-			ret.atributos_nomes.add(resource.getID(pro.getType())+":"+pro.getName());
-		}
-	}
+	ret.string = ((ClassImpl) element).getName();
+	 ret.o = element ;
 	 ret.definir_ponto(x, y);	
 	 x  = x+ 130 ;
 	 if( x  >=600) {
@@ -57,9 +61,50 @@ public leitor_de_UML(Tela canvas){
 		 y =y + 130 ;
 		 
 	 }
+	
+	  page.rets.add(ret);
+	 for ( EObject ele :element.eContents()) {
+		System.out.print(ele.getClass().getSimpleName());
+		 if (ele.getClass().getSimpleName().equals("PropertyImpl")){
+			Property pro = (Property) ele;
+		
+			for(retangulo ret1: PageDiagrams.rets ){
+			   if (pro.getName().equals(ret1.string)){
+				   System.out.println("lionel Messi");
+				   Ponto p = new Ponto();
+				   Ponto p1 = new Ponto();
+				   linha l = new linha();
+				   l.ponto = p;
+				     l.ponto_fim = p1 ;	
+				   if (ret.x > ret1.x){
+					   l.ponto.x = ret1.x + ret1.width;
+					     l.ponto.y = ret1.y + ret1.height/2;
+					     l.ponto_fim.x = ret.x;
+					     l.ponto_fim.y = ret.y +ret.height; 
+				   } 
+				     
+				   else{
+				    	 
+					     l.ponto.x = 100;
+					     l.ponto.y = 200;
+					     l.ponto_fim.x = 300;
+					     l.ponto_fim.y = 150;
+				   
+				   } 
+				   
+				   page.Menu.add(l);
+			       canvas.redraw();
+			   }
+			}	ret.ajustesize();
+			ret.atributos_nomes.add(resource.getID(pro.getType())+":"+pro.getName());
+		}
+	}
+	 
 	 }
-	 }
-	 } catch (IOException e) {
+    	
+    	 MultiPageEditor.uml.classes.add(element);
+     }
+     } catch (IOException e) {
 		 MultiPageEditor.uml.init();
 		 // TODO Auto-generated catch block
 		e.printStackTrace();
