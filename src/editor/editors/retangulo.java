@@ -164,10 +164,11 @@ public void paintControl(PaintEvent arg0) {
 			
 		}
 	},fo ));
-    arg0.gc.drawText(string, (int) width/8, (int)(height *0.03));
+    arg0.gc.drawText(string, (int) width/8, 3);
     int count = 28 ;
     for(String str:atributos_nomes){
-	   arg0.gc.drawText(str, 5, (int)(height *0.03+count));
+	   ajustar_largura(str);
+    	arg0.gc.drawText(str, 5, (int)(height *0.03+count));
        count+=20;
     
     }
@@ -207,9 +208,7 @@ public void mouseDown(MouseEvent arg0) {
 	    text = null ;
 	}
 	    for (Text text : textos){
-			if(text.getCharCount()*8 >= width);
-			    width = text.getCharCount()*8;
-	    	atributos_nomes.add(text.getText());
+			atributos_nomes.add(text.getText());
 			MultiPageEditor.uml.addProperty(text.getText(),o);
 			text.dispose();
 		}
@@ -266,7 +265,7 @@ public void mouseMove(MouseEvent arg0) {
 				((Tela)this.getParent()).inicio_associacao = this;
 				}		
 				else {
-					this.setCursor(busyCursor);
+					this.setCursor(aumentacursor);
 			if (pressionando){
 				
 				       
@@ -344,6 +343,10 @@ position +=20;
 		redimensionamento = redimensionamento  + 7;
 	    height += redimensionamento;
 	}
+}
+public void  ajustar_largura(String text){
+	if(text.length()*8 >= width)
+	    width = text.length()*8;
 }
 }
 

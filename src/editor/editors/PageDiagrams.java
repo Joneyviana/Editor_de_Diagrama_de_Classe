@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,8 +42,8 @@ public UmlHandlefile uml = MultiPageEditor.uml;
 public Display display;
 private PageDiagrams page ;
 private AssociacaoSimples assoc;
-private  Image image;
 
+private LineComposite but;
 public PageDiagrams( final Tela canvas){
 	style = new Composicao() ;
 	 this.canvas = canvas;
@@ -69,8 +70,8 @@ public PageDiagrams( final Tela canvas){
 		            e.gc.setForeground(e.display.getSystemColor(SWT.COLOR_BLACK));
 		            
 		            display = e.display;
-		            image = new Image(canvas.getDisplay(), canvas.getBounds());
-		           e.gc.copyArea(image, 110, 90);
+		            canvas.image = new Image(canvas.getDisplay(), canvas.getBounds());
+		           e.gc.copyArea(canvas.image, 0, 0);
 		           
 		            for (linha line : Menu){
 		            	    
@@ -88,7 +89,7 @@ public PageDiagrams( final Tela canvas){
 		            	 System.out.println("fim.y:"+line.ponto_fim.y);
 		            	 e.gc.drawLine( (int) (line.ponto.x - 8*line.getcosseno()),(int) (line.ponto.y-10*line.getseno()), line.ponto_fim.x,line.ponto_fim.y );
 		            	 if (line.style_linha==null){
-		            		 System.out.println("Quanos por favor quantos");  
+		            		 
 		            		 assoc = new AssociacaoSimples();
 		            	     assoc.addfeature(e.gc, line);
 		            	    
@@ -183,62 +184,55 @@ public PageDiagrams( final Tela canvas){
 	    newItem.setText("Class");
 	    newItem.addSelectionListener(new SelectionListener() {
 			
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 			
 						retangulo ret = new retangulo(canvas,SWT.NONE );
                            EObject o = uml.addclasse();                    
-                           Region cpyRegion = new Region();
-                           linha l  = new linha();
-                            l.ponto = new Ponto();
-                            l.ponto.x = 80 ;
-                            l.ponto.y = 200;
-                            l.ponto_fim =new Ponto();
-                            l.ponto_fim.x = 120;
-                            l.ponto_fim.y = 120;
-                            
+                         
                            //cpyRegion.add(new int[]{l.ponto.x, l.ponto.y,l.ponto_fim.x,l.ponto_fim.y+20,l.ponto.x+15,l.ponto.y=15,l.ponto_fim.y-90,l.ponto_fim.x+90	});
                           //cpyRegion.add(0 , 0 , 400, 400);
                          
                            
-                           Button but = new Button(canvas , SWT.NONE);
+                         but = new LineComposite(canvas , SWT.NONE);
                            	//but.setRegion(cpyRegion);
                           
-                           Rectangle size = cpyRegion.getBounds();
-                           but.setBounds(size.x, size.y,size.width, size.height);
-                            
+                           
                            canvas.setCapture(true);
                           //GC gc = new GC(but);
                           
                           //gc.drawImage(image, 0, 0, canvas.getBounds().width, canvas.getBounds().height, 0, 0, 100, 80);
-                           but.setVisible(true);
-                           but.addPaintListener(new PaintListener() {
-							
-							@Override
-							public void paintControl(PaintEvent arg0) {
-								arg0.gc.drawImage(image,0 , 0, canvas.getSize().x-112, canvas.getSize().y-92, 0, 0,148,99);
-								// TODO Auto-generated method stub
-								
-							}
-						});
+                           
+                           
                            ret.o = o;                    
-                           but.setSize(150 , 100);                          
+                                                 
+                          
                            ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y);
-						     
-                       
-                       
+                           
 						int x1 = canvas.getSize().x;
 						int y1 = canvas.getSize().y ;
 						
 						canvas.pack();
 					    canvas.setSize(x1, y1);
-						
-						canvas.layout(true);
-						canvas.redraw();
-						
-						
-						
-				};
+					    but.definir_ponto(0 ,0,150 ,90);
+			           	
+			};
 				
 						
 						
@@ -246,10 +240,7 @@ public PageDiagrams( final Tela canvas){
 						
 			
 			
-			private int[] circle(int i, int j, int k) {
-				// TODO Auto-generated method stub
-				return null;
-			}
+			
 
 
 
@@ -364,18 +355,7 @@ public PageDiagrams( final Tela canvas){
 
 	    canvas.setMenu(popupMenu);
 }
-static int[] circles(int r, int offsetX, int offsetY) {
-    int[] polygon = new int[8 * r + 4];
-    // x^2 + y^2 = r^2
-    for (int i = 0; i < 2 * r + 1; i++) {
-      int x = i - r;
-      int y = (int) Math.sqrt(r * r - x * x);
-      polygon[2 * i] = offsetX + x;
-      polygon[2 * i + 1] = offsetY + y;
-      polygon[8 * r - 2 * i - 2] = offsetX + x;
-      polygon[8 * r - 2 * i - 1] = offsetY - y;
-    }
-    return polygon;
-  }
+
+
 }
 
