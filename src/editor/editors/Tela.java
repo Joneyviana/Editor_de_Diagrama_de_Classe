@@ -1,9 +1,10 @@
 package editor.editors;
 
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
 public class Tela extends Composite{
-  
+	public  Image image;  
 	
 	public retangulo inicio_associacao;
 	private retangulo fim_associacao;
