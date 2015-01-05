@@ -17,6 +17,7 @@ public class Tela extends Composite{
 	public void setFim_associacao(retangulo fim_associacao) {
 		this.fim_associacao = fim_associacao;
 	    System.out.println("name_class "+fim_associacao.string);
+	    
 	}
 
 
