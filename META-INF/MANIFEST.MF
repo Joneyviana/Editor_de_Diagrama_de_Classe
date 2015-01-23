@@ -13,6 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.swt,
  org.eclipse.uml2.uml,
  org.eclipse.ui.workbench,
- org.eclipse.emf.common
+ org.eclipse.emf.common,
+ TinyMVCPlugin;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy

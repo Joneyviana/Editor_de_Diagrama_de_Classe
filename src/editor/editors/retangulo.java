@@ -38,30 +38,17 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tracker;
 
-public class retangulo extends Composite implements PaintListener, MouseListener, MouseMoveListener, SelectionListener {
-    private Composite composite ;
-       
-private boolean pressionando ; 
+public class retangulo extends DrawWillBeSavedInUml implements PaintListener, SelectionListener {
+   
    public retangulo ret ; 
    public static retangulo entrou_em= null ;
-   public int x =0;
-	public  int y =0;
-	public int width =80;
-    public int height = 100;
-	private Cursor busyCursor;
-	public Text text;
-	public Label label;
-	public String string = "Class";
-	public ArrayList<Text> textos = new ArrayList<>();
-	public ArrayList<String> atributos_nomes = new  ArrayList<>();
-	private int position =28;
-	private Cursor aumentacursor;
+   private int position =28;
 	public int redimensionamento =0;
-	public EObject o;
+	
 	public retangulo(Composite parent, int style) {
 	
 		super(parent, style);
-        composite = parent ;
+        string = "class";
 	}
 
 	
@@ -71,8 +58,7 @@ private boolean pressionando ;
 	  this.y = y1 ;
 	  ret = this ;
 	 
-	  busyCursor = new Cursor(Display.getCurrent(), SWT.CURSOR_SIZEWE);
-	   aumentacursor = new Cursor(Display.getCurrent(), SWT.CURSOR_SIZENS);
+	  
 	   setLocation(x, y);
 	   setSize(width, height);
 	   setFocus();
@@ -109,9 +95,10 @@ private boolean pressionando ;
 	    menus.addselelectionlistenerMultiplo(new int[]{4, 5,6,7,8,9,10,11,12,13,14,15},this);	
 
   this.setMenu(popupMenu);
-	   addPaintListener(this);
-	  addMouseListener(this);
-	  addMouseMoveListener(this);
+	  Mouseevents mouse  = new Mouseevents(this);
+      addPaintListener(this);
+	  addMouseListener(mouse);
+	  addMouseMoveListener(mouse);
       this.addListener(SWT.MouseHover, new Listener() {
 		
 		@Override
@@ -138,180 +125,23 @@ public void checkSubclass(){
 
 @Override
 public void paintControl(PaintEvent arg0) {
+	AreaDraw area = new AreaDraw(0,0,width,height,1,redimensionamento);
+	new DrawRectangle(arg0 ,area ,string , atributos_nomes);
 	
-	
-
-	arg0.gc.setLineAttributes(new LineAttributes(4));
-	arg0.gc.setBackground(arg0.display.getSystemColor(SWT.COLOR_YELLOW));
-    arg0.gc.setForeground(arg0.display.getSystemColor(SWT.COLOR_BLACK));
-	arg0.gc.drawRectangle(0, 0, width-1, height-1);
-    arg0.gc.fillRectangle(2, 2, width-4, height-4);
-    arg0.gc.drawLine(0, 25,width, 25);
-    arg0.gc.drawLine(0, (int)(height *0.65)+redimensionamento,width, (int)(height *0.65)+redimensionamento);
-    FontData fo = new FontData("helvetica", 11, SWT.BOLD);
-	
-    arg0.gc.setFont(new Font(new Device() {
-		
-		@Override
-		public long internal_new_GC(GCData arg0) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-		
-		@Override
-		public void internal_dispose_GC(long arg0, GCData arg1) {
-			// TODO Auto-generated method stub
-			
-		}
-	},fo ));
-    arg0.gc.drawText(string, (int) width/8, 3);
-    int count = 28 ;
-    for(String str:atributos_nomes){
-	   ajustar_largura(str);
-    	arg0.gc.drawText(str, 5, (int)(height *0.03+count));
-       count+=20;
-    
-    }
-    setLocation(x, y);
-	setSize(width, height);
-	
-}
-
-
-
-@Override
-public void mouseDoubleClick(MouseEvent arg0) {
-	
-	
-    redraw();
-	if ((arg0.x>= 10)&&(arg0.y<=25)){
-		text = new Text(this,SWT.SINGLE);
-	    text.setSize(width-4, 20);
-		text.setLocation(2,3);
-		 text.setSelection(text.getText().length());
-		text.setFocus();
-	   
-	}
-	}
-
-
-
-@Override
-public void mouseDown(MouseEvent arg0) {
-	if (arg0.button == 1){
-	pressionando= true ;
-	}
-	if (text !=null){
-		string = text.getText();  
-		
-		text.dispose();
-	    text = null ;
-	}
-	    for (Text text : textos){
-			atributos_nomes.add(text.getText());
-			MultiPageEditor.uml.addProperty(text.getText(),o);
-			text.dispose();
-		}
-	    MultiPageEditor.uml.setName(string, o); 
-	    textos.clear();
-	    redraw();
+	    int count = 28 ;
+	    for(String str:atributos_nomes){
+		   ajustar_largura(str);
+	    	arg0.gc.drawText(str, 5, (int)(height *0.03+count));
+	       count+=20;
 	    
-		
-		
-}
-  
-
-
-@Override
-public void mouseUp(MouseEvent arg0) {
-	
-	
-	pressionando = false ;
-    
-}
-
-@Override
-public void mouseMove(MouseEvent arg0) {
-// if(getCursor().equals(busyCursor)){
-	 
- //}
-	if ((arg0.x>= width-6)||(arg0.x<=6)){
-		if (((arg0.x>= width-3)||(arg0.x<=3))&&(pressionando==false)){
-		((Tela)this.getParent()).inicio_associacao = this;
-		}		
-		else {
-			this.setCursor(busyCursor);
-			if (pressionando){
-			  
-			       
-		        Tracker tracker = new Tracker(composite, SWT.RESIZE|SWT.LEFT|SWT.RIGHT);
-		    	tracker.setRectangles(new Rectangle[] { new Rectangle(x-1, y-1, width+1,height+1), });
-		    	tracker.setCursor(busyCursor);
-		    	tracker.open();
-		    	
-		        width = tracker.getRectangles()[0].width;
-		    	x = tracker.getRectangles()[0].x;
-		    	
-		    	
-		    	redraw();
-			
-	}
-		}
-	}
-		
-	else{
-		if ((arg0.y>= height-6)||(arg0.y<=6)){
-			if (((arg0.y>= height-3)||(arg0.y<=3))&&(pressionando==false)){
-				((Tela)this.getParent()).inicio_associacao = this;
-				}		
-				else {
-					this.setCursor(aumentacursor);
-			if (pressionando){
-				
-				       
-			        Tracker tracker = new Tracker(composite, SWT.RESIZE|SWT.DOWN|SWT.UP);
-			    	tracker.setRectangles(new Rectangle[] { new Rectangle(x-1, y-1, width+1,height+1), });
-			    	tracker.setCursor(aumentacursor);
-			    	tracker.open();
-			    	
-			        height = tracker.getRectangles()[0].height ;
-			    	y= tracker.getRectangles()[0].y;
-			    	
-			    	
-			    	redraw();
-			}
-				}
-				}
-			    	else {
-			
-			this.setCursor(null);
-	
-	if (pressionando){ 
-		Tracker tracker = new Tracker(composite, SWT.NONE);
-        tracker.setRectangles(new Rectangle[] { new Rectangle( this.getLocation().x-1 ,this.getLocation().y-1, width+1, height+1), });
-        this.setCursor(null);
-        tracker.open();
+	    }
 	    
-       this.setLocation(tracker.getRectangles()[0].x,tracker.getRectangles()[0].y);
-	    x = tracker.getRectangles()[0].x ;
-	    y = tracker.getRectangles()[0].y;
-        tracker.addDisposeListener(new DisposeListener() {
-			
-			@Override
-			public void widgetDisposed(DisposeEvent arg0) {
-			
-				
-			}
-		});
-        
-		}
-		}
-		}
-			pressionando = false ;
+	    setLocation(x,y);
+		setSize(width, height);
+
 	
-
+	
 }
-
 
 
 @Override

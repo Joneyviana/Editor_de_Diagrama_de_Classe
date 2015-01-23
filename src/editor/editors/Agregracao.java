@@ -1,7 +1,10 @@
 package editor.editors;
 
+import java.util.HashMap;
+
 import org.eclipse.swt.graphics.GC;
 
+import tinymvcplugin.*;
 public class Agregracao extends Style{
 
 	@Override
@@ -17,6 +20,7 @@ public class Agregracao extends Style{
 		gc.drawLine((int) ((x+8*seno)+10*cosseno), (int) ((y-8*cosseno)+10*seno),(int) (x+20*cosseno), (int) (y+20*seno));
 		gc.drawLine((int) ((x-8*seno)+10*cosseno), (int) ((y+8*cosseno)+10*seno),x,y);
 		gc.drawLine((int) ((x+8*seno)+10*cosseno), (int) ((y-8*cosseno)+10*seno),x,y);
+		Model model = new Model(new HashMap<String,String>());
 	}
 
 }

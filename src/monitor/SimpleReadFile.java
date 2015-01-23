@@ -13,7 +13,7 @@ public class SimpleReadFile{
 	 BufferedReader buf = new BufferedReader(new FileReader(file));
 	 String linha ; 
 	while ((linha = buf.readLine())!=null) {
-		text = text + linha ;
+		text = text + linha +"\n";
 		
 		
 	}
