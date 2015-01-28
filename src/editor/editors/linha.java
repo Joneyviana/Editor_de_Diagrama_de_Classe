@@ -18,7 +18,7 @@ public  void setstyle(Style style){
     
 }
 public static boolean ispontodentrodequadrado(Ponto p ,int x , int y  ,int  width , int height ){
-	if ((p.x>=x)&&(p.y>=y)&&(p.x<=x+width)&&(p.y<=y+height))
+	if ((p.x>=x-6)&&(p.y>=y-6)&&(p.x<=x+width+6)&&(p.y<=y+height+6))
 	return true ;
 	else 
 		return false ;

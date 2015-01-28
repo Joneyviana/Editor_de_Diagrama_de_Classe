@@ -169,10 +169,21 @@ Listener listener = new Listener() {
 		public void handleEvent(Event arg0) {
 			pressionado = false ;
 			canvas.inicio_associacao = null;
-			if (Menu.get(Menu.size()-1).style_linha==null)
-			assoc.verfificaretangulo(page);
+			if (Menu.get(Menu.size()-1).style_linha==null){
+			    System.out.println("Eu amo o demo com todo meu coração "+ assoc.verfificaretangulo(page));
+				if(assoc.verfificaretangulo(page)==false){
+				System.out.println("loucoooooooooooooootgfeswtgsdfgsdfgdfghooooooooooooooooooooooooooo");
+				Menu.remove(Menu.size()-1);
+			 canvas.redraw();
+			}}
 			else 
 				Menu.get(Menu.size()-1).style_linha.verfificaretangulo(page);
+			
+			if(Menu.get(Menu.size()-1).style_linha.verfificaretangulo(page)==false){
+			System.out.println("loucoooooooooooooootgfeswtgsdfgsdfgdfghooooooooooooooooooooooooooo");
+			Menu.remove(Menu.size()-1);
+		 canvas.redraw();
+		}
 		}
 	});
   

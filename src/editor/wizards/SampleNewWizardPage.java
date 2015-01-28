@@ -40,7 +40,7 @@ public class SampleNewWizardPage extends WizardPage {
 	 */
 	public SampleNewWizardPage(ISelection selection) {
 		super("wizardPage");
-		setTitle("Multi-page Editor File");
+		setTitle("UMl editor");
 		setDescription("This wizard creates a new file with *.mpe extension that can be opened by a multi-page editor.");
 		this.selection = selection;
 	}
@@ -162,8 +162,8 @@ public class SampleNewWizardPage extends WizardPage {
 		int dotLoc = fileName.lastIndexOf('.');
 		if (dotLoc != -1) {
 			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase("mpe") == false) {
-				updateStatus("File extension must be \"mpe\"");
+			if (ext.equalsIgnoreCase("uml") == false) {
+				updateStatus("File extension must be \"uml\"");
 				return;
 			}
 		}

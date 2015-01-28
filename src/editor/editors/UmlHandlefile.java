@@ -39,7 +39,7 @@ import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.VisibilityKind;
-
+import org.eclipse.uml2.uml.AggregationKind;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -58,6 +58,8 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.impl.ClassImpl;
 import org.eclipse.uml2.uml.internal.impl.ClassifierImpl;
 import org.eclipse.uml2.uml.internal.impl.TypeImpl;
+import org.eclipse.uml2.uml.internal.impl.RelationshipImpl;
+import org.eclipse.uml2.uml.internal.impl.AssociationImpl;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
 
@@ -148,7 +150,12 @@ public void addProperty(String text , EObject o ){
 	
     
 }
-public Type handletype(String text){
+public void addAssociation(EObject o,EObject o1){
+
+	
+	((Class) o).createAssociation(true,AggregationKind.get("SHARED"), "name", 0, 0,  ((Type)((Class) o1)), true,AggregationKind.get("SHARED"), "name",0, 0);
+}
+ public Type handletype(String text){
 	
 	for ( Type element : dat) {
 		System.out.println("ID "+resource.getID(element));

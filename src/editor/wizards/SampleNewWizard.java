@@ -116,7 +116,7 @@ public class SampleNewWizard extends Wizard implements INewWizard {
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {
 					
-					IDE.openEditor(page, file, true);
+					IDE.openEditor(page, file, "editor.editors.MultiPageEditor",true);
 				} catch (PartInitException e) {
 				}
 			}
@@ -130,7 +130,7 @@ public class SampleNewWizard extends Wizard implements INewWizard {
 
 	private InputStream openContentStream() {
 		String contents =
-			"This is the initial file contents for *.mpe file that should be word-sorted in the Preview page of the multi-page editor";
+			"<uml></uml>";
 		return new ByteArrayInputStream(contents.getBytes());
 	}
 

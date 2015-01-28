@@ -104,7 +104,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 * Creates page 0 of the multi-page editor,
 	 * which contains a text editor.
 	 */
-	void createPage0() {
+	public void createPage0() {
 		try {
 			editor = new TextEditor();
 			int index = addPage(editor, getEditorInput());
@@ -121,7 +121,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 * Creates page 1 of the multi-page editor,
 	 * which allows you to change the font used in page 2.
 	 */
-	void createPage1() {
+	public void createPage1() {
 		
 		
        

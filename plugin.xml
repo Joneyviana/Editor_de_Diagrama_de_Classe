@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="Graphics.uml.editor" name="Graphics.uml.editor" schema="schema/Graphics.uml.editor.exsd"/>
+   <extension-point id="Umleditor.wizard" name="Umleditor.wizard" schema="schema/Umleditor.wizard.exsd"/>
 
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="Sample Multi-page Editor"
+            name="UMLeditor"
             extensions="uml"
             icon="icons/sample.gif"
             contributorClass="editor.editors.MultiPageEditorContributor"
