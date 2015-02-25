@@ -132,8 +132,9 @@ public void removeclasse(EObject o ){
    save();
 }
 public void addProperty(String text , EObject o ){
-    
+	
 	Property prop = ((Class) o).createOwnedAttribute(text.substring(text.indexOf(":")+1,text.length() ), handletype(text));
+	 
 	if (text.contains("+"))
 	   prop.setVisibility(VisibilityKind.PUBLIC_LITERAL);
 	else {
@@ -150,28 +151,42 @@ public void addProperty(String text , EObject o ){
 	
     
 }
-public void addAssociation(EObject o,EObject o1){
+public Association addAssociation(EObject o,String text){
 
-	
-	((Class) o).createAssociation(true,AggregationKind.get("SHARED"), "name", 0, 0,  ((Type)((Class) o1)), true,AggregationKind.get("SHARED"), "name",0, 0);
+    Type tipo = handletype(text);
+    if (tipo !=null){
+	Association asso = ((Class) o).createAssociation(true,AggregationKind.get(AggregationKind.NONE),text, 1, 1, tipo  , false,AggregationKind.get(AggregationKind.NONE), "",1, 1);
+    
+	save();
+    return asso;
+    }
+  return null;    
 }
  public Type handletype(String text){
 	
 	for ( Type element : dat) {
 		System.out.println("ID "+resource.getID(element));
-		System.out.println("text" +text.substring(0, text.indexOf(":")));
-		if(resource.getID(element).equals(text.substring(0, text.indexOf(":")))){
+		//System.out.println("text" +text.substring(0, text.indexOf(":")));
+		if((text.contains(":"))&&(resource.getID(element).equals(text.substring(0, text.indexOf(":"))))){
 			return element ;
 		}
+	  
 	}
-
-	dat.add( new ClassImpl() {
-	});
+	 ClassImpl ca = new ClassImpl() {
+		};
 	
-	
+		dat.add( ca);
+		
 	resource.getContents().add(dat.get(dat.size()-1));
+	if (text.contains(":")){
 	resource.setID(dat.get(dat.size()-1), text.substring(1, text.indexOf(":")));
-	return dat.get(dat.size()-1);
+
+	}
+	else {
+		resource.setID(dat.get(dat.size()-1), text);
+		 System.out.println("ajuda jessus"); 
+	}
+		return dat.get(dat.size()-1);
 	
 }
   public void setName(String text , EObject o){

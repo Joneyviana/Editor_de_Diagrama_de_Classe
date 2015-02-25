@@ -10,15 +10,14 @@ linha l = null;
 public abstract void addfeature(GC gc ,linha l) ;
 
 
-public boolean verfificaretangulo(PageDiagrams p){
+public retangulo verfificaretangulo(PageDiagrams p,Ponto ponto){
 	for(retangulo ret :p.rets){
 		
-		if(linha.ispontodentrodequadrado(po, ret.x, ret.y, ret.width, ret.height)){
-			System.out.println("Flaviaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-			p.canvas.setFim_associacao(ret);
-		    return true;
+		if(linha.ispontodentrodequadrado(ponto, ret.x, ret.y, ret.width, ret.height)){
+			System.out.println("sacanagemmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+			return ret;
 		}
 	}
-  return false ;
+  return null ;
 }
 }

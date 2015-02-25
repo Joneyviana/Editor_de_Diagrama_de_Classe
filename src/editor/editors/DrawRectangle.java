@@ -38,6 +38,7 @@ public 	DrawRectangle(PaintEvent evt,AreaDraw area, String string, ArrayList<Str
 			
 		}
 	},fo ));
+    
     evt.gc.drawText(string , (int) area.x/scale+(area.width/8)/scale, area.y/scale+ 3/scale);
 }
 }

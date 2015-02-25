@@ -42,9 +42,9 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
    
    public retangulo ret ; 
    public static retangulo entrou_em= null ;
-   private int position =28;
+   int position =28;
 	public int redimensionamento =0;
-	
+	public ArrayList<Label> labels = new ArrayList<>() ;
 	public retangulo(Composite parent, int style) {
 	
 		super(parent, style);
@@ -82,6 +82,19 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				MultiPageEditor.uml.removeclasse(o);
+	            for(linha li : linhas_inicio){
+	            	PageDiagrams.Menu.remove(li);
+	            	if (li.asso!=null)
+	            	MultiPageEditor.uml.removeclasse(li.asso);
+	            	System.out.println("apagou a linha cacete.......................");
+	            }
+	            for(linha li : linhas_fim){
+	            	PageDiagrams.Menu.remove(li);
+	            	if (li.asso!=null)
+	            	MultiPageEditor.uml.removeclasse(li.asso);
+	            	System.out.println("apagou a linha cacete.......................");
+	            }
+	            getParent().redraw();
 	            ret.dispose();
 				
 			}
@@ -103,7 +116,7 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 		
 		@Override
 		public void handleEvent(Event arg0) {
-			System.out.print("hover");
+		
 			entrou_em = ret ;
 			
 		}
@@ -128,11 +141,33 @@ public void paintControl(PaintEvent arg0) {
 	AreaDraw area = new AreaDraw(0,0,width,height,1,redimensionamento);
 	new DrawRectangle(arg0 ,area ,string , atributos_nomes);
 	
-	    int count = 28 ;
+	    int count = 25 ;
+	    FontData fo = new FontData("helvetica", 11/area.scale_reducao, SWT.BOLD);
 	    for(String str:atributos_nomes){
 		   ajustar_largura(str);
-	    	arg0.gc.drawText(str, 5, (int)(height *0.03+count));
-	       count+=20;
+	    	Label label = new Label(this , SWT.NONE);
+		    label.setText(str);
+	    	label.setLocation(5, (int)(height *0.03+count));
+            label.setSize(width-10, 17);
+	    	label.setFont(new Font(new Device() {
+	    		
+	    		@Override
+	    		public long internal_new_GC(GCData arg0) {
+	    			// TODO Auto-generated method stub
+	    			return 0;
+	    		}
+	    		
+	    		@Override
+	    		public void internal_dispose_GC(long arg0, GCData arg1) {
+	    			// TODO Auto-generated method stub
+	    			
+	    		}
+	    	},fo ));;
+            label.setBackground(arg0.display.getSystemColor(SWT.COLOR_YELLOW));
+            label.setForeground(arg0.display.getSystemColor(SWT.COLOR_BLACK));
+            label.setFocus();
+	    	labels.add(label);		   
+	       count+=17;
 	    
 	    }
 	    

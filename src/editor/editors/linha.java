@@ -1,6 +1,7 @@
 package editor.editors;
 
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.uml2.uml.Association;
 
 public class linha {
 
@@ -9,7 +10,7 @@ public Ponto ponto ;
 public Ponto ponto_fim ;
 
 public  Style style_linha;
-
+public Association asso;
 public boolean ispontilhado = false;
 
 public  void setstyle(Style style){

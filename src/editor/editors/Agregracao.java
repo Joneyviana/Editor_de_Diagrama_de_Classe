@@ -3,7 +3,7 @@ package editor.editors;
 import java.util.HashMap;
 
 import org.eclipse.swt.graphics.GC;
-import tinymvc.Controller.Controller;
+
 
 public class Agregracao extends Style{
 

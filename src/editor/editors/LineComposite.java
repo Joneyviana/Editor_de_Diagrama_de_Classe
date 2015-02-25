@@ -75,7 +75,7 @@ public void checkSubclass(){
 
 @Override
 public void paintControl(PaintEvent arg0) {
-	 System.out.println("Entrouu no Line Composite");
+
 	arg0.gc.setForeground(arg0.display.getSystemColor(SWT.COLOR_BLACK));
 	arg0.gc.setLineAttributes(new LineAttributes(1));
      this.setBackground(new Color(arg0.display,230,230,230 ));

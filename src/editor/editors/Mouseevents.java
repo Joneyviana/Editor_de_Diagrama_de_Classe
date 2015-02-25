@@ -28,7 +28,8 @@ public 	Mouseevents(DrawComposite comp){
     public void mouseMove(MouseEvent arg0) {
 		if ((arg0.x>= DrawListener.width-6)||(arg0.x<=6)){
 			if (((arg0.x>= DrawListener.width-3)||(arg0.x<=3))&&(pressionando==false)){
-			((Tela)DrawListener.getParent()).inicio_associacao = DrawListener;
+			
+			
 			}		
 			else {
 				DrawListener.setCursor(busyCursor);
@@ -53,7 +54,7 @@ public 	Mouseevents(DrawComposite comp){
 		else{
 			if ((arg0.y>= DrawListener.height-6)||(arg0.y<=6)){
 				if (((arg0.y>= DrawListener.height-3)||(arg0.y<=3))&&(pressionando==false)){
-					((Tela)DrawListener.getParent()).inicio_associacao = DrawListener;
+					
 					}		
 					else {
 						DrawListener.setCursor(aumentacursor);
@@ -133,13 +134,7 @@ public 	Mouseevents(DrawComposite comp){
 			    if(DrawListener instanceof DrawWillBeSavedInUml){
 			    	((DrawWillBeSavedInUml) DrawListener).setPropertysofClass();
 			    }
-		if (arg0.y>=28){
-			if (but !=null)
-			    but.dispose();
-			but = new LineComposite(DrawListener.getParent(), SWT.NONE);
-            
-			 but.definir_ponto( DrawListener.x-120, DrawListener.y +arg0.y -80);  
-		}
+		
 	}
 
 	@Override

@@ -11,7 +11,8 @@ public class DrawComposite extends Composite {
 	public String string;
 	public ArrayList<Text> textos = new ArrayList<>();
 	public ArrayList<String> atributos_nomes = new  ArrayList<>();	
-	 
+	 public ArrayList<linha> linhas_inicio = new  ArrayList<>();
+	 public ArrayList<linha> linhas_fim = new  ArrayList<>();
 	  public int width =80;
 		 public int height = 100;
 	     public int redimensionamento ;

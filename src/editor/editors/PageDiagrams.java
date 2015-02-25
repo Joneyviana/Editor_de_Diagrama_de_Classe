@@ -37,7 +37,7 @@ public class PageDiagrams {
 public  Tela  canvas;
 private Style style;
 private ArrayList <Ponto> risco = new ArrayList<>();
-public ArrayList <linha> Menu = new ArrayList<>();
+public static ArrayList <linha> Menu = new ArrayList<>();
 public static ArrayList<retangulo> rets = new ArrayList<>();
 private Ponto posicao_direita_inicio;
 private boolean pressionado;
@@ -48,7 +48,7 @@ private AssociacaoSimples assoc;
 
 private LineComposite but;
 public PageDiagrams( final Tela canvas){
-	style = new Composicao() ;
+	style = new AssociacaoSimples() ;
 	 this.canvas = canvas;
 	GridLayout layout = new GridLayout();
 	canvas.setLayoutData(layout);
@@ -86,10 +86,7 @@ public PageDiagrams( final Tela canvas){
 		            	}
 		            	
 		             if (line.ponto.equals(line.ponto_fim)==false){
-		            	 System.out.println("incio_x:"+line.ponto.x);
-		            	 System.out.println("incio_y:"+line.ponto.y);
-		            	 System.out.println("fim_x:"+line.ponto_fim.x);
-		            	 System.out.println("fim.y:"+line.ponto_fim.y);
+		      
 		            	 e.gc.drawLine( (int) (line.ponto.x - 8*line.getcosseno()),(int) (line.ponto.y-10*line.getseno()), line.ponto_fim.x,line.ponto_fim.y );
 		            	 if (line.style_linha==null){
 		            		 
@@ -156,7 +153,20 @@ Listener listener = new Listener() {
 			    posicao_direita_inicio.y = arg0.y ;
 			}
 			else{    	
-			pressionado = true ;
+			 Ponto ponto = new Ponto();
+			 ponto.x = arg0.x;
+			 ponto.y = arg0.y;
+			 retangulo ret = line.style_linha.verfificaretangulo(page,ponto);
+			 
+			 if (ret!=null){
+				 canvas.inicio_associacao = ret ; 
+				 System.out.println("Adicionou a linha cacete...................,............................................");
+				 ret.linhas_inicio.add(line);
+			 }
+			
+				 
+			
+			 pressionado = true ;
 			
 			}
 		}
@@ -168,22 +178,34 @@ Listener listener = new Listener() {
 		@Override
 		public void handleEvent(Event arg0) {
 			pressionado = false ;
-			canvas.inicio_associacao = null;
+			
 			if (Menu.get(Menu.size()-1).style_linha==null){
-			    System.out.println("Eu amo o demo com todo meu coração "+ assoc.verfificaretangulo(page));
-				if(assoc.verfificaretangulo(page)==false){
-				System.out.println("loucoooooooooooooootgfeswtgsdfgsdfgdfghooooooooooooooooooooooooooo");
+				retangulo ret = assoc.verfificaretangulo(page,Menu.get(Menu.size()-1).ponto_fim);
+				if(ret==null){
+			
 				Menu.remove(Menu.size()-1);
 			 canvas.redraw();
-			}}
-			else 
-				Menu.get(Menu.size()-1).style_linha.verfificaretangulo(page);
-			
-			if(Menu.get(Menu.size()-1).style_linha.verfificaretangulo(page)==false){
-			System.out.println("loucoooooooooooooootgfeswtgsdfgsdfgdfghooooooooooooooooooooooooooo");
+			}
+				else {
+					//ret.linhas_fim.add(Menu.get(Menu.size()-1));
+					 //System.out.println("Adicionou a linha cacete...................,............................................");
+				}
+					canvas.setFim_associacao(ret);}
+			else{ 
+				
+				retangulo ret = Menu.get(Menu.size()-1).style_linha.verfificaretangulo(page,Menu.get(Menu.size()-1).ponto_fim);
+			if(ret==null){
+		
 			Menu.remove(Menu.size()-1);
 		 canvas.redraw();
+		
 		}
+			else {
+				//ret.linhas_fim.add(Menu.get(Menu.size()-1));
+				 //System.out.println("Adicionou a linha cacete...................,............................................");
+			}
+				canvas.setFim_associacao(ret);}
+			canvas.inicio_associacao = null;
 		}
 	});
   
@@ -244,8 +266,9 @@ Listener listener = new Listener() {
 							};
 						 
 						
-						 canvas.pack();
-					    canvas.setSize(x1, y1);
+						 //canvas.pack();
+					    //canvas.setSize(x1, y1);
+			           canvas.redraw();
 			};
 				
 			@Override
