@@ -3,6 +3,8 @@ package editor.editors;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Matcher;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
@@ -41,10 +43,12 @@ import org.eclipse.swt.widgets.Tracker;
 public class retangulo extends DrawWillBeSavedInUml implements PaintListener, SelectionListener {
    
    public retangulo ret ; 
+   private LineComposite line ;
    public static retangulo entrou_em= null ;
    int position =28;
 	public int redimensionamento =0;
 	public ArrayList<Label> labels = new ArrayList<>() ;
+	private static  HashMap<String, ArrayList<String>> nomePackages = new HashMap<>() ;
 	public retangulo(Composite parent, int style) {
 	
 		super(parent, style);
@@ -139,16 +143,16 @@ public void checkSubclass(){
 @Override
 public void paintControl(PaintEvent arg0) {
 	AreaDraw area = new AreaDraw(0,0,width,height,1,redimensionamento);
-	new DrawRectangle(arg0 ,area ,string , atributos_nomes);
+	new DrawRectangle(arg0 ,area ,string);
 	
 	    int count = 25 ;
 	    FontData fo = new FontData("helvetica", 11/area.scale_reducao, SWT.BOLD);
 	    for(String str:atributos_nomes){
 		   ajustar_largura(str);
-	    	Label label = new Label(this , SWT.NONE);
+	    	final Label label = new Label(this , SWT.NONE);
 		    label.setText(str);
 	    	label.setLocation(5, (int)(height *0.03+count));
-            label.setSize(width-10, 17);
+            label.setSize(width-10, 19);
 	    	label.setFont(new Font(new Device() {
 	    		
 	    		@Override
@@ -166,8 +170,46 @@ public void paintControl(PaintEvent arg0) {
             label.setBackground(arg0.display.getSystemColor(SWT.COLOR_YELLOW));
             label.setForeground(arg0.display.getSystemColor(SWT.COLOR_BLACK));
             label.setFocus();
-	    	labels.add(label);		   
-	       count+=17;
+	    	label.addListener(SWT.MouseHover, new Listener() {
+				
+				@Override
+				public void handleEvent(Event arg0) {
+					String str = label.getText();
+				    str = str.substring(1, str.lastIndexOf("."));
+				    
+				    line = new LineComposite(ret.getParent(), SWT.NONE);
+					line.definir_ponto(ret.x -130 , arg0.y,extrai_nome_de_classes(str) );
+					
+				}
+
+				private ArrayList<String> extrai_nome_de_classes(String str) {
+					if (nomePackages.containsKey(str)){
+						return nomePackages.get(str);
+					}
+					ArrayList<HashMap<String, Matcher>> lista_de_retangulos = diagrams.getInstance().pacotes.get(str);
+					ArrayList<String> piru = new ArrayList<>() ;
+					 for (HashMap<String, Matcher> chave : lista_de_retangulos){
+						 Matcher matcher = chave.get("class");   
+					   if (matcher.find()){
+						   piru.add(matcher.group("name"));
+					   }
+					 }
+					 nomePackages.put(str, piru);
+					 return piru ;
+				}
+			});
+	    	label.addListener(SWT.MouseExit , new Listener() {
+				
+				@Override
+				public void handleEvent(Event arg0) {
+					line.dispose();
+					
+				}
+			});
+	    	
+	    			
+	    			labels.add(label);		   
+	       count+=19;
 	    
 	    }
 	    

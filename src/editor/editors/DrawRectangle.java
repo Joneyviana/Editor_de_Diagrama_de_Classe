@@ -12,7 +12,7 @@ import org.eclipse.swt.graphics.LineAttributes;
 
 public class DrawRectangle {
 
-public 	DrawRectangle(PaintEvent evt,AreaDraw area, String string, ArrayList<String> atributos_nomes){
+public 	DrawRectangle(PaintEvent evt,AreaDraw area, String string){
 	int scale = area.scale_reducao;
 	evt.gc.setLineAttributes(new LineAttributes(4/scale));
 	evt.gc.setBackground(evt.display.getSystemColor(SWT.COLOR_YELLOW));
@@ -38,7 +38,7 @@ public 	DrawRectangle(PaintEvent evt,AreaDraw area, String string, ArrayList<Str
 			
 		}
 	},fo ));
-    
+    System.out.print("misericordia Deus me ajuda pelo amor de Deus");
     evt.gc.drawText(string , (int) area.x/scale+(area.width/8)/scale, area.y/scale+ 3/scale);
 }
 }
