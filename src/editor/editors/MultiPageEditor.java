@@ -125,14 +125,14 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		
 		
        
-		canvas = new Tela(getContainer(), SWT.NONE);
-         
-         int index = addPage(canvas);
+		Quadro_inicial quadro = new Quadro_inicial(getContainer(), SWT.NONE);
+		
+         int index = addPage(quadro.filho);
          
          file =  ((FileEditorInput) this.getEditorInput()).getFile();
      	 
          leitor_de_UML.outputFile = new File(file.getLocationURI());
-         leitor_de_UML let = new leitor_de_UML(canvas);
+         leitor_de_UML let = new leitor_de_UML(quadro.filho);
      	 
           setPageText(index, "Properties");
 	}

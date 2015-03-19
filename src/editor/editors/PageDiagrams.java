@@ -107,9 +107,10 @@ public PageDiagrams( final Tela canvas){
 	
 });
 Listener listener = new Listener() {
-       int count = 0;
+   
+	int count = 0;
    	public void handleEvent(Event e) {
-        
+      
        	count +=1;
        	if ((pressionado == true)&&(count%4==0)){
        	   if(canvas.inicio_associacao!=null){
@@ -124,6 +125,7 @@ Listener listener = new Listener() {
        	Menu.get(Menu.size()-1).ponto_fim.x =risco.get(risco.size()-1).x;
        	Menu.get(Menu.size()-1).ponto_fim.y = risco.get(risco.size()-1).y;
        	canvas.redraw();
+       
        	}
        	   }
        	   }
@@ -139,7 +141,9 @@ Listener listener = new Listener() {
 
 		@Override
 		public void handleEvent(Event arg0) {
-			
+			  if ( canvas.little_painel!=null){
+		        	canvas.little_painel.dispose();
+		        }
 			linha line = new linha();
 			line.setstyle(style);
 			line.ponto = new Ponto();

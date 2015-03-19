@@ -48,6 +48,7 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
    int position =28;
 	public int redimensionamento =0;
 	public ArrayList<Label> labels = new ArrayList<>() ;
+	private int count;
 	private static  HashMap<String, ArrayList<String>> nomePackages = new HashMap<>() ;
 	public retangulo(Composite parent, int style) {
 	
@@ -145,7 +146,7 @@ public void paintControl(PaintEvent arg0) {
 	AreaDraw area = new AreaDraw(0,0,width,height,1,redimensionamento);
 	new DrawRectangle(arg0 ,area ,string);
 	
-	    int count = 25 ;
+	    count = 25 ;
 	    FontData fo = new FontData("helvetica", 11/area.scale_reducao, SWT.BOLD);
 	    for(String str:atributos_nomes){
 		   ajustar_largura(str);
@@ -176,10 +177,13 @@ public void paintControl(PaintEvent arg0) {
 				public void handleEvent(Event arg0) {
 					String str = label.getText();
 				    str = str.substring(1, str.lastIndexOf("."));
-				    
+				    if(((Tela)ret.getParent()).little_painel!=null){
+				    ((Tela)ret.getParent()).little_painel.dispose();
+				    }
 				    line = new LineComposite(ret.getParent(), SWT.NONE);
-					line.definir_ponto(ret.x -130 , arg0.y,extrai_nome_de_classes(str) );
 					
+				    line.definir_ponto(ret.x -120 , ret.y+label.getBounds().y-80,extrai_nome_de_classes(str) );
+					((Tela)ret.getParent()).little_painel = line ;
 				}
 
 				private ArrayList<String> extrai_nome_de_classes(String str) {
@@ -198,11 +202,12 @@ public void paintControl(PaintEvent arg0) {
 					 return piru ;
 				}
 			});
-	    	label.addListener(SWT.MouseExit , new Listener() {
+	    	label.addListener(SWT.MouseDoubleClick , new Listener() {
 				
 				@Override
 				public void handleEvent(Event arg0) {
-					line.dispose();
+					//Text text = new Text(label,SWT.SINGLE);
+					text.setSize(label.getBounds().width-1,label.getBounds().width-1);
 					
 				}
 			});

@@ -32,12 +32,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 
-public class LineComposite extends DrawComposite implements PaintListener , MouseListener{
+public class LineComposite extends DrawComposite implements PaintListener{
     public ArrayList<retangulo> listDraws;private int x;
 	private int y;
 	private int x1;
 	private int y1;
-	private Tela tela;
+	private Composite tela;
 	private static int x_diagram =0;
 	private static int y_diagram= 0  ;
 	private ArrayList<String> namepacote ;
@@ -47,7 +47,7 @@ public class LineComposite extends DrawComposite implements PaintListener , Mous
 	private Cursor aumentacursor;
 	public LineComposite(Composite parent, int style) {
 		super(parent, style);
-		  tela = (Tela) parent ;
+		  tela = parent ;
 		  Region region = new Region();
 		    region.add(x,y,x+100,y+70);
 	    region.add(new int[] {  x+100,y+55 ,x+95,y+70,x+120,y+80});
@@ -67,7 +67,7 @@ public void definir_ponto(int x , int y,ArrayList<String> str){
 	   setFocus();	  
        setVisible(true);
        
-       this.addMouseListener(this);
+       
        this.addPaintListener(this);
 }
 
@@ -94,48 +94,10 @@ public void paintControl(PaintEvent arg0) {
 		 x_diagram += 80 ;
 	     y_diagram += 10 ;
 	     
-	     AreaDraw area = new AreaDraw(x_diagram,y_diagram, 80, 100, 6, 0);
+	     AreaDraw area = new AreaDraw(0, 10, 80, 100, 6, 0);
 	   
 	     
 	     new DrawRectangle(arg0, area, pirus);
  
 	 }}
-@Override
-public void mouseUp(MouseEvent arg0) {
-    Quadro_inicial patern = (Quadro_inicial) tela.pai;
-    
-    
-    Tela canvas = new Tela(patern.getParent() , SWT.NONE);
-    this.setParent(canvas);
-    PageDiagrams page = new PageDiagrams(canvas);
-    int countx = 0 ;
-    int county = 0 ;
-    for(String str : namepacote){
-    retangulo ret = new retangulo(tela , SWT.NONE);
-    ret.definir_ponto(100+countx, 100+county);
-    ret.string = str ;
-    if ((county %500 == 0)&&(county!=0)){
-    	county+= 100;
-    	countx = 0 ;
-    }
-    countx+=100;
-    }
-    patern.filho = canvas;
-    //tela.dispose();
-    
-    patern.redraw();
-
-}
-
-@Override
-public void mouseDoubleClick(MouseEvent arg0) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public void mouseDown(MouseEvent arg0) {
-	// TODO Auto-generated method stub
-	
-}
 }
