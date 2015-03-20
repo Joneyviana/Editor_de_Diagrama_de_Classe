@@ -6,7 +6,8 @@ import java.util.regex.Matcher;
 
 public class diagrams {
 	 private static diagrams instance = null;
-     public HashMap<String, ArrayList<HashMap<String , Matcher>>> pacotes = new HashMap<>();
+     public String pacote_incial = "" ;
+	 public HashMap<String, ArrayList<HashMap<String , Matcher>>> pacotes = new HashMap<>();
 	 public static diagrams  getInstance() {
 	      if(instance == null) {
 	         instance = new diagrams();

@@ -3,6 +3,7 @@ package editor.editors;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.regex.Matcher;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -113,8 +114,27 @@ public leitor_de_UML(Tela canvas){
      } catch (IOException e) {
     	 UmlHandlefile.resource = null ;
     	 MultiPageEditor.uml.init();
+		diagrams dia = diagrams.getInstance();
+		int county = 0;
+		int countx = 0;
+		for (HashMap<String, Matcher> classe:dia.pacotes.get(dia.pacote_incial)){
+			retangulo ret1 = new retangulo(canvas, SWT.NONE);
+		    Matcher matcher = classe.get("class");
+		    PageDiagrams.rets.add(ret1);
+		    ret1.definir_ponto(100+countx, 100+county);
+		    EObject o = MultiPageEditor.uml.addclasse();                    
+            ret1.o = o;  
+		    if (matcher.find()){
+				   ret1.string = matcher.group("name");
+			   }
+		    if ((county %500 == 0)&&(county!=0)){
+		    	county+= 100;
+		    	countx = 0 ;
+		    }
+		    countx+=100;
+		}
 		
-		 // TODO Auto-generated catch block
+		
 		e.printStackTrace();
 	}
 }

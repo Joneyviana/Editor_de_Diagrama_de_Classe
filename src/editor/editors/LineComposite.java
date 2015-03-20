@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -108,17 +109,12 @@ public void mouseUp(MouseEvent arg0) {
     Tela canvas = new Tela(patern.getParent() , SWT.NONE);
     this.setParent(canvas);
     PageDiagrams page = new PageDiagrams(canvas);
-    int countx = 0 ;
-    int county = 0 ;
+    int countx = 0;
+    int county = 0;
     for(String str : namepacote){
-    retangulo ret = new retangulo(tela , SWT.NONE);
-    ret.definir_ponto(100+countx, 100+county);
-    ret.string = str ;
-    if ((county %500 == 0)&&(county!=0)){
-    	county+= 100;
-    	countx = 0 ;
-    }
-    countx+=100;
+    int[] x_y =	instanciar_retangulo(str ,countx ,county);
+    countx = x_y[0];
+    county = x_y[1];
     }
     patern.filho = canvas;
     //tela.dispose();
@@ -138,4 +134,23 @@ public void mouseDown(MouseEvent arg0) {
 	// TODO Auto-generated method stub
 	
 }
+public int[] instanciar_retangulo(String str ,int x , int y){
+	int [] x_y = new int[2];
+	x_y[0] = 0;
+	x_y[1] = 1 ;
+	retangulo ret = new retangulo(tela , SWT.NONE);
+    ret.definir_ponto(100+x_y[0], 100+x_y[1]);
+    ret.string = str ;
+    EObject o = MultiPageEditor.uml.addclasse();                    
+    ret.o = o;
+    if ((x_y[1] %500 == 0)&&(x_y[1]!=0)){
+    	x_y[1]+= 100;
+    	x_y[0] = 0 ;
+    }
+    x_y[0]+=100;
+    
+    return x_y;    
+}
+   
+
 }
