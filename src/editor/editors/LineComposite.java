@@ -41,11 +41,12 @@ public class LineComposite extends DrawComposite implements PaintListener , Mous
 	private Tela tela;
 	private static int x_diagram =0;
 	private static int y_diagram= 0  ;
-	private ArrayList<String> namepacote ;
+	private String namepacote ;
 	private int height = 100 ;
 	private int width= 80;
 	private Cursor busyCursor;
 	private Cursor aumentacursor;
+	private ArrayList<Representação_de_classe> lista_de_retangulos;
 	public LineComposite(Composite parent, int style) {
 		super(parent, style);
 		  tela = (Tela) parent ;
@@ -55,10 +56,10 @@ public class LineComposite extends DrawComposite implements PaintListener , Mous
 	    this.setRegion(region);
 	}
 
-public void definir_ponto(int x , int y,ArrayList<String> str){
+public void definir_ponto(int x , int y , String str){
 	this.x = x ;
 	  this.y = y ;
-	  namepacote = str ;
+	lista_de_retangulos = diagrams.getInstance().Key(str); ;
 	 
 	   
 	  
@@ -89,16 +90,16 @@ public void paintControl(PaintEvent arg0) {
 	arg0.gc.setLineAttributes(new LineAttributes(1));
      this.setBackground(new Color(arg0.display,230,230,230 ));
 	 
-     ArrayList<HashMap<String, Matcher>> lista_de_retangulos = diagrams.getInstance().pacotes.get(namepacote);
+     
 	 
-	 for (String pirus : namepacote){
+	 for (Representação_de_classe classe: lista_de_retangulos){
 		 x_diagram += 80 ;
 	     y_diagram += 10 ;
 	     
 	     AreaDraw area = new AreaDraw(x_diagram,y_diagram, 80, 100, 6, 0);
 	   
 	     
-	     new DrawRectangle(arg0, area, pirus);
+	     new DrawRectangle(arg0, area, classe.name);
  
 	 }}
 @Override
@@ -111,7 +112,10 @@ public void mouseUp(MouseEvent arg0) {
     PageDiagrams page = new PageDiagrams(canvas);
     int countx = 0;
     int county = 0;
-    for(String str : namepacote){
+    for (retangulo ret : PageDiagrams.rets){
+    	ret.dispose();
+    }
+    for(Representação_de_classe str : lista_de_retangulos){
     int[] x_y =	instanciar_retangulo(str ,countx ,county);
     countx = x_y[0];
     county = x_y[1];
@@ -134,14 +138,15 @@ public void mouseDown(MouseEvent arg0) {
 	// TODO Auto-generated method stub
 	
 }
-public int[] instanciar_retangulo(String str ,int x , int y){
+public int[] instanciar_retangulo(Representação_de_classe str ,int x , int y){
 	int [] x_y = new int[2];
-	x_y[0] = 0;
-	x_y[1] = 1 ;
+	x_y[0] = x;
+	x_y[1] = y ;
 	retangulo ret = new retangulo(tela , SWT.NONE);
-    ret.definir_ponto(100+x_y[0], 100+x_y[1]);
-    ret.string = str ;
+    ret.definir_ponto(100+x_y[0], 100+x_y[1],str);
+   
     EObject o = MultiPageEditor.uml.addclasse();                    
+    PageDiagrams.rets.add(ret);
     ret.o = o;
     if ((x_y[1] %500 == 0)&&(x_y[1]!=0)){
     	x_y[1]+= 100;

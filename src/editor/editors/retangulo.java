@@ -47,6 +47,7 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
    public static retangulo entrou_em= null ;
    int position =28;
 	public int redimensionamento =0;
+	public AreaDraw area  ;
 	public ArrayList<Label> labels = new ArrayList<>() ;
 	private int count;
 	private static  HashMap<String, ArrayList<String>> nomePackages = new HashMap<>() ;
@@ -58,12 +59,14 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 
 	
 	
-  public void definir_ponto(int x1 ,int y1 ){
+  public void definir_ponto(int x1 ,int y1 ,Representação_de_classe classe ){
 	  this.x = x1 ;
 	  this.y = y1 ;
 	  ret = this ;
-	 
-	  
+	  if (classe !=null){
+	  atributos_nomes =  classe.atributos ;
+	  string = classe.name ;
+	  }
 	   setLocation(x, y);
 	   setSize(width, height);
 	   setFocus();
@@ -143,7 +146,12 @@ public void checkSubclass(){
 
 @Override
 public void paintControl(PaintEvent arg0) {
-	AreaDraw area = new AreaDraw(0,0,width,height,1,redimensionamento);
+	
+	if (atributos_nomes.size()>=2){
+		redimensionamento = (atributos_nomes.size() -2)*19 +6;
+	    
+	}
+	area = new AreaDraw(0,0,width,height,1,redimensionamento);
 	new DrawRectangle(arg0 ,area ,string);
 	
 	    count = 25 ;
@@ -154,7 +162,8 @@ public void paintControl(PaintEvent arg0) {
 		    label.setText(str);
 	    	label.setLocation(5, (int)(height *0.03+count));
             label.setSize(width-10, 19);
-	    	label.setFont(new Font(new Device() {
+	    	
+            label.setFont(new Font(new Device() {
 	    		
 	    		@Override
 	    		public long internal_new_GC(GCData arg0) {
@@ -182,25 +191,11 @@ public void paintControl(PaintEvent arg0) {
 				    }
 				    line = new LineComposite(ret.getParent(), SWT.NONE);
 					
-				    line.definir_ponto(ret.x -120 , ret.y+label.getBounds().y-80,extrai_nome_de_classes(str) );
+				    line.definir_ponto(ret.x -120 , ret.y+label.getBounds().y-80,str );
 					((Tela)ret.getParent()).little_painel = line ;
 				}
 
-				private ArrayList<String> extrai_nome_de_classes(String str) {
-					if (nomePackages.containsKey(str)){
-						return nomePackages.get(str);
-					}
-					ArrayList<HashMap<String, Matcher>> lista_de_retangulos = diagrams.getInstance().pacotes.get(str);
-					ArrayList<String> piru = new ArrayList<>() ;
-					 for (HashMap<String, Matcher> chave : lista_de_retangulos){
-						 Matcher matcher = chave.get("class");   
-					   if (matcher.find()){
-						   piru.add(matcher.group("name"));
-					   }
-					 }
-					 nomePackages.put(str, piru);
-					 return piru ;
-				}
+				
 			});
 	    	label.addListener(SWT.MouseDoubleClick , new Listener() {
 				
@@ -217,10 +212,10 @@ public void paintControl(PaintEvent arg0) {
 	       count+=19;
 	    
 	    }
-	    
+	   
 	    setLocation(x,y);
-		setSize(width, height);
-
+		setSize(width, height+redimensionamento);
+		
 	
 	
 }
@@ -239,8 +234,9 @@ public void widgetSelected(SelectionEvent arg0) {
     arg0.getSource().toString();
 	Text text  = new Text(this, SWT.SINGLE);
 	text.setSize(width-4, 20);
-	text.setLocation(2,position);
-	ajustesize();
+	
+	text.setLocation(2,(atributos_nomes.size()+1)*20);
+	
 	
 	String str = arg0.getSource().toString();
 	text.setText(str.substring(10,str.length()-1 )+ ":");
@@ -248,14 +244,7 @@ public void widgetSelected(SelectionEvent arg0) {
 	textos.add(text);
 	text.setFocus();
 }
-public void ajustesize(){
-position +=20;
-	
-	if (position>=height/1.6+redimensionamento){
-		redimensionamento = redimensionamento  + 7;
-	    height += redimensionamento;
-	}
-}
+
 public void  ajustar_largura(String text){
 	if(text.length()*8 >= width)
 	    width = text.length()*8;

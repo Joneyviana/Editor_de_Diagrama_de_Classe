@@ -52,7 +52,7 @@ public leitor_de_UML(Tela canvas){
 	 retangulo ret = 	new retangulo(canvas, SWT.NONE);
 	 ret.string = ((ClassImpl) elemento).getName();
 	 ret.o = elemento ;
-	 ret.definir_ponto(x, y);	
+	 ret.definir_ponto(x, y,null);	
 	 retangulos.put(ret.string, ret);
 	 PageDiagrams.rets.add(ret);
 	 x  = x+ 130 ;
@@ -95,7 +95,7 @@ public leitor_de_UML(Tela canvas){
 			       isassociation =true ;
 			   }
 			if (isassociation==false){
-				 ret.ajustesize();
+				
 				System.out.println("eu te amo satanas "+ret.position);
 				ret.atributos_nomes.add(resource.getID(pro.getType())+":"+pro.getName());
 			}
@@ -117,16 +117,16 @@ public leitor_de_UML(Tela canvas){
 		diagrams dia = diagrams.getInstance();
 		int county = 0;
 		int countx = 0;
-		for (HashMap<String, Matcher> classe:dia.pacotes.get(dia.pacote_incial)){
+		for (Representação_de_classe classe:dia.Key(dia.pacote_incial)){
 			retangulo ret1 = new retangulo(canvas, SWT.NONE);
-		    Matcher matcher = classe.get("class");
+		    
 		    PageDiagrams.rets.add(ret1);
-		    ret1.definir_ponto(100+countx, 100+county);
+		    ret1.definir_ponto(100+countx, 100+county,classe);
 		    EObject o = MultiPageEditor.uml.addclasse();                    
             ret1.o = o;  
-		    if (matcher.find()){
-				   ret1.string = matcher.group("name");
-			   }
+		    
+				   
+			   
 		    if ((county %500 == 0)&&(county!=0)){
 		    	county+= 100;
 		    	countx = 0 ;

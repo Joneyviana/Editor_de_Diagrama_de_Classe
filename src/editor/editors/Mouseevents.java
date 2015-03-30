@@ -26,6 +26,10 @@ public 	Mouseevents(DrawComposite comp){
 }	
 	@Override
     public void mouseMove(MouseEvent arg0) {
+		int redimensionamento =0;
+		if (DrawListener.atributos_nomes.size()>=2){
+			redimensionamento = ((DrawListener.atributos_nomes.size() -2)*19) +6;
+		}
 		if ((arg0.x>= DrawListener.width-6)||(arg0.x<=6)){
 			if (((arg0.x>= DrawListener.width-3)||(arg0.x<=3))&&(pressionando==false)){
 			
@@ -37,7 +41,7 @@ public 	Mouseevents(DrawComposite comp){
 				  
 				       
 			        Tracker tracker = new Tracker(DrawListener.getParent(), SWT.RESIZE|SWT.LEFT|SWT.RIGHT);
-			    	tracker.setRectangles(new Rectangle[] { new Rectangle(DrawListener.x-1, DrawListener.y-1, DrawListener.width+1,DrawListener.height+1), });
+			    	tracker.setRectangles(new Rectangle[] { new Rectangle(DrawListener.x-1, DrawListener.y-1, DrawListener.width+1,DrawListener.height+1+redimensionamento), });
 			    	tracker.setCursor(busyCursor);
 			    	tracker.open();
 			    	
@@ -62,11 +66,11 @@ public 	Mouseevents(DrawComposite comp){
 					
 					       
 				        Tracker tracker = new Tracker(DrawListener.getParent(), SWT.RESIZE|SWT.DOWN|SWT.UP|SWT.Resize);
-				    	tracker.setRectangles(new Rectangle[] { new Rectangle(DrawListener.x-1, DrawListener.y-1, DrawListener.width+1,DrawListener.height+1), });
+				    	tracker.setRectangles(new Rectangle[] { new Rectangle(DrawListener.x-1, DrawListener.y-1, DrawListener.width+1,DrawListener.height+1+redimensionamento), });
 				    	tracker.setCursor(aumentacursor);
 				    	tracker.open();
 				    	
-				    	DrawListener.height = tracker.getRectangles()[0].height ;
+				    	DrawListener.height = tracker.getRectangles()[0].height-redimensionamento ;
 				    	DrawListener.y= tracker.getRectangles()[0].y;
 				    	
 				    	
@@ -80,10 +84,10 @@ public 	Mouseevents(DrawComposite comp){
 		
 		if (pressionando){ 
 			Tracker tracker = new Tracker(DrawListener.getParent(), SWT.NONE);
-	        tracker.setRectangles(new Rectangle[] { new Rectangle( DrawListener.getLocation().x-1 ,DrawListener.getLocation().y-1, DrawListener.width+1, DrawListener.height+1), });
+	        tracker.setRectangles(new Rectangle[] { new Rectangle( DrawListener.getLocation().x-1 ,DrawListener.getLocation().y-1, DrawListener.width+1, DrawListener.height+1+redimensionamento), });
 	        DrawListener.setCursor(null);
 	        tracker.open();
-		    
+	        
 	        DrawListener.setLocation(tracker.getRectangles()[0].x,tracker.getRectangles()[0].y);
 	        DrawListener.x = tracker.getRectangles()[0].x ;
 	        DrawListener.y = tracker.getRectangles()[0].y;

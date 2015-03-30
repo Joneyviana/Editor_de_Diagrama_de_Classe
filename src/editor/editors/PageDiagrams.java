@@ -247,7 +247,7 @@ Listener listener = new Listener() {
                            EObject o = uml.addclasse();                    
                           
                    		ret.o = o;                    
-                             ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y);
+                             ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y,null);
                              rets.add(ret);
                              int x1 = canvas.getSize().x;
 						 
