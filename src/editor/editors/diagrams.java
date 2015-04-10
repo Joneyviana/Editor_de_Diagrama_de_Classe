@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class diagrams {
-	 private static diagrams instance = null;
+	 
+	private static diagrams instance = null;
      public String pacote_incial = "" ;
 	 public HashMap<String ,ArrayList<Representação_de_classe>> pacotes_salvos = new HashMap<>();
      public HashMap<String, ArrayList<HashMap<String , Matcher>>> pacotes = new HashMap<>();
@@ -31,9 +32,8 @@ public class diagrams {
 		   }
          matcher = chave.get("attribute")  ;
          while(matcher.find()){
-        	 String str = matcher.group(0);
-        	 str = str.replace("public", "+").replace("private", "-").replace("protected", "#");
-        	 classe.atributos.add(str);
+        	
+        	 classe.atributos.add(new Attribute(matcher));
          }
          lista_de_classe.add(classe);
 	     pacotes_salvos.put(pacote , lista_de_classe);

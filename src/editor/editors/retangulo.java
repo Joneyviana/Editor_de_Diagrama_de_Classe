@@ -39,6 +39,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tracker;
+import org.omg.IOP.MultipleComponentProfileHelper;
 
 public class retangulo extends DrawWillBeSavedInUml implements PaintListener, SelectionListener {
    
@@ -51,6 +52,8 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 	public ArrayList<Label> labels = new ArrayList<>() ;
 	private int count;
 	private static  HashMap<String, ArrayList<String>> nomePackages = new HashMap<>() ;
+	
+	public Representação_de_classe classe ;
 	public retangulo(Composite parent, int style) {
 	
 		super(parent, style);
@@ -63,11 +66,15 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 	  this.x = x1 ;
 	  this.y = y1 ;
 	  ret = this ;
+	  this.classe = classe ;
+	 
 	  if (classe !=null){
-	  atributos_nomes =  classe.atributos ;
+	  
+	  
 	  string = classe.name ;
 	  }
-	   setLocation(x, y);
+	   
+	  setLocation(x, y);
 	   setSize(width, height);
 	   setFocus();
 	   Menus menus = new Menus();

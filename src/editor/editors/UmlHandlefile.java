@@ -114,8 +114,11 @@ private InputStream openContentStream() throws IOException {
 		return new ByteArrayInputStream(contents.getBytes());
 	}
 
-public EObject addclasse(){
-    classes.add( (Class) sampleModel.createOwnedClass("Class"+classes.size(), false));
+public EObject addclasse(String str){
+    if (str.equals("class")){
+      str = str +classes.size();
+    }
+    	classes.add( (Class) sampleModel.createOwnedClass(str, false));
    
     Integer indice = classes.size();
     while(resource.getIDToEObjectMap().containsKey(indice.toString())){

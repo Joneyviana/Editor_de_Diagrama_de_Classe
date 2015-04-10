@@ -46,6 +46,7 @@ public class LineComposite extends DrawComposite implements PaintListener , Mous
 	private int width= 80;
 	private Cursor busyCursor;
 	private Cursor aumentacursor;
+	private ArrayList<String> names = new ArrayList<>();
 	private ArrayList<Representação_de_classe> lista_de_retangulos;
 	public LineComposite(Composite parent, int style) {
 		super(parent, style);
@@ -84,7 +85,7 @@ public void checkSubclass(){
 public void paintControl(PaintEvent arg0) {
 	x_diagram = 0 ;
     y_diagram += 0 ;
-    String piru = "lamparaão";
+    
     ArrayList<String> drible = new ArrayList();
     arg0.gc.setForeground(arg0.display.getSystemColor(SWT.COLOR_BLACK));
 	arg0.gc.setLineAttributes(new LineAttributes(1));
@@ -113,7 +114,9 @@ public void mouseUp(MouseEvent arg0) {
     int countx = 0;
     int county = 0;
     for (retangulo ret : PageDiagrams.rets){
+    	MultiPageEditor.uml.removeclasse(ret.o );
     	ret.dispose();
+    
     }
     for(Representação_de_classe str : lista_de_retangulos){
     int[] x_y =	instanciar_retangulo(str ,countx ,county);
@@ -122,7 +125,7 @@ public void mouseUp(MouseEvent arg0) {
     }
     patern.filho = canvas;
     //tela.dispose();
-    
+    tela.desenhar_associations(names);
     patern.redraw();
 
 }
@@ -145,8 +148,9 @@ public int[] instanciar_retangulo(Representação_de_classe str ,int x , int y){
 	retangulo ret = new retangulo(tela , SWT.NONE);
     ret.definir_ponto(100+x_y[0], 100+x_y[1],str);
    
-    EObject o = MultiPageEditor.uml.addclasse();                    
+    EObject o = MultiPageEditor.uml.addclasse(str.name);                    
     PageDiagrams.rets.add(ret);
+    names.add(str.name);
     ret.o = o;
     if ((x_y[1] %500 == 0)&&(x_y[1]!=0)){
     	x_y[1]+= 100;

@@ -35,7 +35,7 @@ import org.eclipse.ui.part.FileEditorInput;
 public class PageDiagrams {
 
 public  Tela  canvas;
-private Style style;
+
 private ArrayList <Ponto> risco = new ArrayList<>();
 public static ArrayList <linha> Menu = new ArrayList<>();
 public static ArrayList<retangulo> rets = new ArrayList<>();
@@ -48,7 +48,7 @@ private AssociacaoSimples assoc;
 
 private LineComposite but;
 public PageDiagrams( final Tela canvas){
-	style = new AssociacaoSimples() ;
+	
 	 this.canvas = canvas;
 	GridLayout layout = new GridLayout();
 	canvas.setLayoutData(layout);
@@ -144,10 +144,7 @@ Listener listener = new Listener() {
 			  if ( canvas.little_painel!=null){
 		        	canvas.little_painel.dispose();
 		        }
-			linha line = new linha();
-			line.setstyle(style);
-			line.ponto = new Ponto();
-			line.ponto_fim =  new Ponto();
+			  linha line = canvas.setarumalinha();
 			risco.clear();
 			Menu.add(line);
 			if(arg0.button == 3){
@@ -244,7 +241,7 @@ Listener listener = new Listener() {
 			public void widgetSelected(SelectionEvent arg0) {
 			
 						retangulo ret = new retangulo(canvas,SWT.NONE );
-                           EObject o = uml.addclasse();                    
+                           EObject o = uml.addclasse("class");                    
                           
                    		ret.o = o;                    
                              ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y,null);
@@ -294,7 +291,7 @@ Listener listener = new Listener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				style = new heranca();
+				canvas.style = new heranca();
 				
 			}
 			
@@ -312,7 +309,7 @@ Listener listener = new Listener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				style = new AssociacaoSimples();
+				canvas.style = new AssociacaoSimples();
 				
 			}
 			
@@ -329,7 +326,7 @@ Listener listener = new Listener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				style = new Agregracao();
+				canvas.style = new Agregracao();
 				
 			}
 			
@@ -345,7 +342,7 @@ Listener listener = new Listener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				style = new Composicao();
+				canvas.style = new Composicao();
 				
 			}
 			
@@ -361,7 +358,7 @@ Listener listener = new Listener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				style = null ;
+				canvas.style = null ;
 				
 			}
 			

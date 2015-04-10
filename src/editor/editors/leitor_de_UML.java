@@ -2,6 +2,7 @@ package editor.editors;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
@@ -96,7 +97,7 @@ public leitor_de_UML(Tela canvas){
 			   }
 			if (isassociation==false){
 				
-				System.out.println("eu te amo satanas "+ret.position);
+			
 				ret.atributos_nomes.add(resource.getID(pro.getType())+":"+pro.getName());
 			}
 			}	
@@ -117,15 +118,17 @@ public leitor_de_UML(Tela canvas){
 		diagrams dia = diagrams.getInstance();
 		int county = 0;
 		int countx = 0;
+		PageDiagrams.rets.clear();
+		ArrayList<String> names = new ArrayList<>();
 		for (Representação_de_classe classe:dia.Key(dia.pacote_incial)){
 			retangulo ret1 = new retangulo(canvas, SWT.NONE);
 		    
-		    PageDiagrams.rets.add(ret1);
+		  
 		    ret1.definir_ponto(100+countx, 100+county,classe);
-		    EObject o = MultiPageEditor.uml.addclasse();                    
+		    EObject o = MultiPageEditor.uml.addclasse(classe.name);                    
             ret1.o = o;  
-		    
-				   
+		    names.add(classe.name);
+		    PageDiagrams.rets.add(ret1);	   
 			   
 		    if ((county %500 == 0)&&(county!=0)){
 		    	county+= 100;
@@ -133,7 +136,7 @@ public leitor_de_UML(Tela canvas){
 		    }
 		    countx+=100;
 		}
-		
+		canvas.desenhar_associations(names);
 		
 		e.printStackTrace();
 	}
