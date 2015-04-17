@@ -28,24 +28,36 @@ public class Tela extends Composite{
 		this.fim_associacao = fim_associacao;
 	    
 	    if (fim_associacao !=null){
-	    	inicio_associacao.linhas_inicio.get(inicio_associacao.linhas_inicio.size()-1).asso = uml.addAssociation(inicio_associacao.o,fim_associacao.string) ;  
-	    	fim_associacao.linhas_fim.add(inicio_associacao.linhas_inicio.get(inicio_associacao.linhas_inicio.size()-1));
-	    }
+	    	int tamanho = inicio_associacao.linhas_inicio.size()-1;
+	    	linha line =inicio_associacao.linhas_inicio.get(tamanho);
+	    	System.out.println("nome da classe" +line.style_linha.getClass().getName());
+	    	if( line.style_linha.getClass().getName()=="editor.editors.AssociacaoSimples"){
+	    	line.asso = uml.addAssociation(inicio_associacao.o,fim_associacao.string) ;  
+	    	fim_associacao.linhas_fim.add(line);
+	    	}
+	    	else {
+	    		line.gene = uml.addGeneration(inicio_associacao.o, fim_associacao.string) ;	
+	    		fim_associacao.linhas_fim.add(line);
+	    	}
+	    	}
 	    }
 
  public void desenhar_associations(ArrayList<String> names){
 	 for( retangulo ret :  page.rets) {
 		 if((ret.classe.Pai.equals("")==false)&&(names.contains(ret.classe.Pai))){
-			 System.out.println("sera que ta entrando aqui");
+		
 			 retangulo ret_destino =	 page.rets.get(names.indexOf(ret.classe.Pai));
 			 criar_uma_linha_na_tela( ret ,ret_destino, new heranca());
+			 setFim_associacao(ret_destino);
 		 }
 		 if (ret.classe.atributos!=null){
 		 for (Attribute attr :ret.classe.atributos){
-			   ret.atributos_nomes.add(attr.visibility+attr.type+":"+attr.name);
+			 if (attr.type.equals("class")==false){  
+			 ret.atributos_nomes.add(attr.visibility+attr.type+":"+attr.name);
 			  uml.addProperty(ret.atributos_nomes.get(ret.atributos_nomes.size()-1) , ret.o ) ;
 		      System.out.println("que name é esse " + attr.name);
-			 if (names.contains(attr.type)){
+			 }
+		      if (names.contains(attr.type)){
 			retangulo ret_destino =	 page.rets.get(names.indexOf(attr.type));
 			 criar_uma_linha_na_tela( ret ,ret_destino, new AssociacaoSimples());
 			 setFim_associacao(ret_destino);

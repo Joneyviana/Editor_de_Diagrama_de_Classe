@@ -26,9 +26,11 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.DirectedRelationship;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Package;
@@ -40,9 +42,11 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.VisibilityKind;
 import org.eclipse.uml2.uml.AggregationKind;
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -79,11 +83,22 @@ public class UmlHandlefile {
 		 if (resource==null){
 			  
 			 sampleModel =  UMLFactory.eINSTANCE.createModel();
+			
 			 outputUri =  URI.createFileURI( leitor_de_UML.outputFile.getAbsolutePath() );
 				resource = new XMIResourceImpl(outputUri);	
-			   
+			    resource.setXMIVersion("20110701");
+			
+			    Map<Object, Object> options = resource.getDefaultLoadOptions();
+				options.put(XMIResource.OPTION_USE_XMI_TYPE, Boolean.TRUE);
+			    try {
+					resource.load(options);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				resource.getContents().add( sampleModel );  
-		    }else{
+		       
+		 }else{
 		    		
 		    	sampleModel = (Model) resource.getContents().get(0);
 		        
@@ -126,6 +141,7 @@ public EObject addclasse(String str){
     	indice = indice +1 ;
     }
     resource.setID(classes.get(classes.size()-1),indice.toString() );
+   resource.setXMIVersion("20110701");
    
     save();
   return classes.get(classes.size()-1);
@@ -153,6 +169,13 @@ public void addProperty(String text , EObject o ){
 	save();
 	
     
+}
+public Generalization addGeneration(EObject o,String text){
+	Generalization gene = ((Class) o).createGeneralization((Classifier) handletype(text));
+	
+	save();
+	return gene;
+	
 }
 public Association addAssociation(EObject o,String text){
 
@@ -187,7 +210,8 @@ public Association addAssociation(EObject o,String text){
 	}
 	else {
 		resource.setID(dat.get(dat.size()-1), text);
-		 System.out.println("ajuda jessus"); 
+		
+		System.out.println("ajuda jessus"); 
 	}
 		return dat.get(dat.size()-1);
 	
