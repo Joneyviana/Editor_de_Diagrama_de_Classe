@@ -72,7 +72,7 @@ import org.w3c.dom.css.Rect;
 public class MultiPageEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
 	/** The text editor used in page 0. */
-	public static UmlHandlefile uml = new UmlHandlefile();
+	
 	private ArrayList <Ponto> risco = new ArrayList<>();
     private ArrayList <linha> Menu = new ArrayList<>();
 	private Ponto posicao_direita_inicio;

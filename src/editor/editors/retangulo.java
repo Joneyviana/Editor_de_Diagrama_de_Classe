@@ -58,6 +58,7 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 	
 		super(parent, style);
         string = "class";
+	   
 	}
 
 	
@@ -96,17 +97,17 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				MultiPageEditor.uml.removeclasse(o);
+				tela.uml.removeclasse(o);
 	            for(linha li : linhas_inicio){
-	            	PageDiagrams.Menu.remove(li);
+	            	tela.page.Menu.remove(li);
 	            	if (li.asso!=null)
-	            	MultiPageEditor.uml.removeclasse(li.asso);
+	            	tela.uml.removeclasse(li.asso);
 	            	System.out.println("apagou a linha cacete.......................");
 	            }
 	            for(linha li : linhas_fim){
-	            	PageDiagrams.Menu.remove(li);
+	            	tela.page.Menu.remove(li);
 	            	if (li.asso!=null)
-	            	MultiPageEditor.uml.removeclasse(li.asso);
+	            	tela.uml.removeclasse(li.asso);
 	            	System.out.println("apagou a linha cacete.......................");
 	            }
 	            getParent().redraw();

@@ -48,6 +48,7 @@ public class LineComposite extends DrawComposite implements PaintListener , Mous
 	private Cursor aumentacursor;
 	private ArrayList<String> names = new ArrayList<>();
 	private ArrayList<Representação_de_classe> lista_de_retangulos;
+	private PageDiagrams page;
 	public LineComposite(Composite parent, int style) {
 		super(parent, style);
 		  tela = (Tela) parent ;
@@ -110,14 +111,10 @@ public void mouseUp(MouseEvent arg0) {
     
     Tela canvas = new Tela(patern.getParent() , SWT.NONE);
     this.setParent(canvas);
-    PageDiagrams page = new PageDiagrams(canvas);
+    page = new PageDiagrams(canvas);
     int countx = 0;
     int county = 0;
-    for (retangulo ret : PageDiagrams.rets){
-    	MultiPageEditor.uml.removeclasse(ret.o );
-    	ret.dispose();
-    
-    }
+   
     for(Representação_de_classe str : lista_de_retangulos){
     int[] x_y =	instanciar_retangulo(str ,countx ,county);
     countx = x_y[0];
@@ -148,8 +145,8 @@ public int[] instanciar_retangulo(Representação_de_classe str ,int x , int y){
 	retangulo ret = new retangulo(tela , SWT.NONE);
     ret.definir_ponto(100+x_y[0], 100+x_y[1],str);
    
-    EObject o = MultiPageEditor.uml.addclasse(str.name);                    
-    PageDiagrams.rets.add(ret);
+    EObject o = tela.uml.addclasse(str.name);                    
+    page.rets.add(ret);
     names.add(str.name);
     ret.o = o;
     if ((x_y[1] %500 == 0)&&(x_y[1]!=0)){

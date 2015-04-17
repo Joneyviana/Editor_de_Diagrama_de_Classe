@@ -13,9 +13,10 @@ public class Tela extends Composite{
 	public Composite pai ;
 	public DrawWillBeSavedInUml inicio_associacao;
 	private DrawWillBeSavedInUml fim_associacao;
-	
+	public UmlHandlefile uml ;
 	public LineComposite little_painel ;
 	public Style style;
+	public PageDiagrams page ;
 	public Tela(Composite parent, int style) {
 		super(parent, style);
 		this.style = new AssociacaoSimples() ;
@@ -27,27 +28,28 @@ public class Tela extends Composite{
 		this.fim_associacao = fim_associacao;
 	    
 	    if (fim_associacao !=null){
-	    	inicio_associacao.linhas_inicio.get(inicio_associacao.linhas_inicio.size()-1).asso = MultiPageEditor.uml.addAssociation(inicio_associacao.o,fim_associacao.string) ;  
+	    	inicio_associacao.linhas_inicio.get(inicio_associacao.linhas_inicio.size()-1).asso = uml.addAssociation(inicio_associacao.o,fim_associacao.string) ;  
 	    	fim_associacao.linhas_fim.add(inicio_associacao.linhas_inicio.get(inicio_associacao.linhas_inicio.size()-1));
 	    }
 	    }
 
  public void desenhar_associations(ArrayList<String> names){
-	 for( retangulo ret :  PageDiagrams.rets) {
-		 System.out.print("porra stantafrf"+ ret.classe);
+	 for( retangulo ret :  page.rets) {
+		 if((ret.classe.Pai.equals("")==false)&&(names.contains(ret.classe.Pai))){
+			 System.out.println("sera que ta entrando aqui");
+			 retangulo ret_destino =	 page.rets.get(names.indexOf(ret.classe.Pai));
+			 criar_uma_linha_na_tela( ret ,ret_destino, new heranca());
+		 }
 		 if (ret.classe.atributos!=null){
 		 for (Attribute attr :ret.classe.atributos){
 			   ret.atributos_nomes.add(attr.visibility+attr.type+":"+attr.name);
-			  MultiPageEditor.uml.addProperty(ret.atributos_nomes.get(ret.atributos_nomes.size()-1) , ret.o ) ;
+			  uml.addProperty(ret.atributos_nomes.get(ret.atributos_nomes.size()-1) , ret.o ) ;
 		      System.out.println("que name é esse " + attr.name);
 			 if (names.contains(attr.type)){
-			retangulo ret_destino =	 PageDiagrams.rets.get(names.indexOf(attr.type));
-			linha line = setarumalinha();
-			 line.ponto.x = ret.x +ret.width/2;
-			 line.ponto.y = ret.y +ret.height/2;
-			 line.ponto_fim.x = ret_destino.x + ret_destino.width/2;
-			 line.ponto_fim.y = ret_destino.y + ret_destino.height/2;
-			 PageDiagrams.Menu.add(line);
+			retangulo ret_destino =	 page.rets.get(names.indexOf(attr.type));
+			 criar_uma_linha_na_tela( ret ,ret_destino, new AssociacaoSimples());
+			 setFim_associacao(ret_destino);
+			
 			 
 			 }
 		 }
@@ -55,11 +57,31 @@ public class Tela extends Composite{
 		 }
   redraw();
  }
+public linha setarumalinha(Style style){
+	linha line = new linha();
+	line.setstyle(style);
+	line.ponto = new Ponto();
+	line.ponto_fim =  new Ponto();
+  return line ;
+}
 public linha setarumalinha(){
 	linha line = new linha();
 	line.setstyle(style);
 	line.ponto = new Ponto();
 	line.ponto_fim =  new Ponto();
   return line ;
+}
+public void criar_uma_linha_na_tela(retangulo ret ,retangulo ret_destino, Style style){
+	linha line = setarumalinha(style);
+	 inicio_associacao = ret ;
+	 inicio_associacao.linhas_inicio.add(line);
+	 
+    
+	 
+line.ponto.x = ret.x +ret.width/2;
+line.ponto.y = ret.y +ret.height/2;
+line.ponto_fim.x = ret_destino.x + ret_destino.width/2;
+line.ponto_fim.y = ret_destino.y + ret_destino.height/2;
+page.Menu.add(line);
 }
 }

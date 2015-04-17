@@ -33,15 +33,19 @@ public class leitor_de_UML {
 	private  URI outputUri ;
 	private XMIResource resource ;
 	private EPackage ePackage;
-public leitor_de_UML(Tela canvas){
+	public  UmlHandlefile uml = new UmlHandlefile();
+	public leitor_de_UML(Tela canvas){
 	outputUri =  URI.createFileURI( outputFile.getAbsolutePath() );
 	resource = new XMIResourceImpl(outputUri);
+	canvas.uml = uml;
+	
 	PageDiagrams page = new PageDiagrams(canvas);
+	canvas.page = page ;
 	try {
 		
 		resource.load(null);
 		UmlHandlefile.resource = resource ;
-		MultiPageEditor.uml.init();
+		uml.init();
 
 		EObject root =    resource.getContents().get(0);
      //root.eContents().get(0).
@@ -55,7 +59,7 @@ public leitor_de_UML(Tela canvas){
 	 ret.o = elemento ;
 	 ret.definir_ponto(x, y,null);	
 	 retangulos.put(ret.string, ret);
-	 PageDiagrams.rets.add(ret);
+	 page.rets.add(ret);
 	 x  = x+ 130 ;
 	 if( x  >=600) {
 		 x = 50;
@@ -107,28 +111,28 @@ public leitor_de_UML(Tela canvas){
    	 
     	 }
     	 
-    	 MultiPageEditor.uml.classes.add(element);
+    	uml.classes.add(element);
 	 }
     	
     	
      
      } catch (IOException e) {
     	 UmlHandlefile.resource = null ;
-    	 MultiPageEditor.uml.init();
+    	 uml.init();
 		diagrams dia = diagrams.getInstance();
 		int county = 0;
 		int countx = 0;
-		PageDiagrams.rets.clear();
+		if (dia.pacote_incial.equals("")==false){
 		ArrayList<String> names = new ArrayList<>();
 		for (Representação_de_classe classe:dia.Key(dia.pacote_incial)){
 			retangulo ret1 = new retangulo(canvas, SWT.NONE);
 		    
 		  
 		    ret1.definir_ponto(100+countx, 100+county,classe);
-		    EObject o = MultiPageEditor.uml.addclasse(classe.name);                    
+		    EObject o =uml.addclasse(classe.name);                    
             ret1.o = o;  
 		    names.add(classe.name);
-		    PageDiagrams.rets.add(ret1);	   
+		    page.rets.add(ret1);	   
 			   
 		    if ((county %500 == 0)&&(county!=0)){
 		    	county+= 100;
@@ -140,5 +144,6 @@ public leitor_de_UML(Tela canvas){
 		
 		e.printStackTrace();
 	}
-}
+     }
+     }
 }

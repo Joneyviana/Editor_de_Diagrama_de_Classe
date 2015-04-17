@@ -5,20 +5,20 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
 public class DrawWillBeSavedInUml extends DrawComposite{
-
+public Tela tela ;
 public EObject o;
 public DrawWillBeSavedInUml(Composite parent, int style) {
 		super(parent, style);
-		
+		tela = (Tela) parent ;
 	}
 
 public void setPropertysofClass(){
 	for (Text text : textos){
 		atributos_nomes.add(text.getText());
-		MultiPageEditor.uml.addProperty(text.getText(),o);
+		tela.uml.addProperty(text.getText(),o);
 		text.dispose();
 	}
-    MultiPageEditor.uml.setName(string, o); 
+    tela.uml.setName(string, o); 
     textos.clear();
     redraw();
 }

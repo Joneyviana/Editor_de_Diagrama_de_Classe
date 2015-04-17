@@ -37,11 +37,11 @@ public class PageDiagrams {
 public  Tela  canvas;
 
 private ArrayList <Ponto> risco = new ArrayList<>();
-public static ArrayList <linha> Menu = new ArrayList<>();
-public static ArrayList<retangulo> rets = new ArrayList<>();
+public  ArrayList <linha> Menu = new ArrayList<>();
+public  ArrayList<retangulo> rets = new ArrayList<>();
 private Ponto posicao_direita_inicio;
 private boolean pressionado;
-public UmlHandlefile uml = MultiPageEditor.uml; 
+
 public Display display;
 private PageDiagrams page ;
 private AssociacaoSimples assoc;
@@ -241,7 +241,7 @@ Listener listener = new Listener() {
 			public void widgetSelected(SelectionEvent arg0) {
 			
 						retangulo ret = new retangulo(canvas,SWT.NONE );
-                           EObject o = uml.addclasse("class");                    
+                           EObject o = canvas.uml.addclasse("class");                    
                           
                    		ret.o = o;                    
                              ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y,null);

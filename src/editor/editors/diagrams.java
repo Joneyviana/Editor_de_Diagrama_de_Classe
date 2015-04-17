@@ -35,6 +35,12 @@ public class diagrams {
         	
         	 classe.atributos.add(new Attribute(matcher));
          }
+         matcher = chave.get("inherit");   
+		   if (matcher.find()){
+			   System.out.println("achou o pai gfsdgsdfgdfgdfgdfhgftjghkhjulojkç");
+			   classe.Pai = matcher.group("name");
+			   System.out.println("achou o pai "+classe.Pai);
+		   }
          lista_de_classe.add(classe);
 	     pacotes_salvos.put(pacote , lista_de_classe);
 	 }
