@@ -172,7 +172,7 @@ public void addProperty(String text , EObject o ){
 }
 public Generalization addGeneration(EObject o,String text){
 	Generalization gene = ((Class) o).createGeneralization((Classifier) handletype(text));
-	
+	gene.getGeneral().setName(text);
 	save();
 	return gene;
 	
@@ -193,6 +193,8 @@ public Association addAssociation(EObject o,String text){
 	for ( Type element : dat) {
 		System.out.println("ID "+resource.getID(element));
 		//System.out.println("text" +text.substring(0, text.indexOf(":")));
+		if (resource.getID(element).equals(text))
+			return element;
 		if((text.contains(":"))&&(resource.getID(element).equals(text.substring(0, text.indexOf(":"))))){
 			return element ;
 		}
@@ -204,14 +206,15 @@ public Association addAssociation(EObject o,String text){
 		dat.add( ca);
 		
 	resource.getContents().add(dat.get(dat.size()-1));
-	if (text.contains(":")){
+	System.out.println("Que porra é essa "+ text);
+	if (text.contains(":")== true){
 	resource.setID(dat.get(dat.size()-1), text.substring(1, text.indexOf(":")));
 
 	}
 	else {
 		resource.setID(dat.get(dat.size()-1), text);
 		
-		System.out.println("ajuda jessus"); 
+	
 	}
 		return dat.get(dat.size()-1);
 	

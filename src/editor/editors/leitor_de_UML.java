@@ -18,7 +18,11 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLMapImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.internal.impl.AssociationImpl;
@@ -34,12 +38,17 @@ public class leitor_de_UML {
 	private XMIResource resource ;
 	private EPackage ePackage;
 	public  UmlHandlefile uml = new UmlHandlefile();
+	private PageDiagrams page;
+	private Tela canvas;
+	private boolean isassociation;
+	
 	public leitor_de_UML(Tela canvas){
 	outputUri =  URI.createFileURI( outputFile.getAbsolutePath() );
 	resource = new XMIResourceImpl(outputUri);
+	this.canvas = canvas ;
 	canvas.uml = uml;
 	
-	PageDiagrams page = new PageDiagrams(canvas);
+	page = new PageDiagrams(canvas);
 	canvas.page = page ;
 	try {
 		
@@ -71,42 +80,30 @@ public class leitor_de_UML {
     	 System.out.print(element.getClass().getSimpleName());
     	 if( element.getClass().getSimpleName().equals("ClassImpl")){
 	     retangulo ret = retangulos.get(((ClassImpl) element).getName());
-        boolean isassociation  = false ;
+       isassociation  = false ;
 	
 	 for ( EObject ele :element.eContents()) {
-		System.out.print(ele.getClass().getSimpleName());
-		isassociation = false ; 
-		if (ele.getClass().getSimpleName().equals("PropertyImpl")){
-			Property pro = (Property) ele;
 		
-			if (retangulos.containsKey(pro.getName())){
-			    retangulo ret1 = retangulos.get(pro.getName());
-				   
-				   Ponto p = new Ponto();
-				   Ponto p1 = new Ponto();
-				   linha l = new linha();
-				   l.setstyle(new AssociacaoSimples());
-				   l.ponto = p;
-				     l.ponto_fim = p1 ;	
-				    l.ponto_fim.x  = ret1.x;
-				    l.ponto_fim.y =  ret1.y +ret1.height/2 ;
-				    l.ponto.x = ret.x +ret.width;
-				    l.ponto.y = ret.y +ret.height/2;
-				    ret.linhas_inicio.add(l);
-				   ret1.linhas_fim.add(l);
-				   System.out.print("Quantas linhas poxa");
-				   page.Menu.add(l);
-			       canvas.redraw();
-			       isassociation =true ;
-			   }
-			if (isassociation==false){
-				
+		isassociation = false ; 
+		
+		if (ele.getClass().getSimpleName().equals("PropertyImpl")){
 			
-				ret.atributos_nomes.add(resource.getID(pro.getType())+":"+pro.getName());
-			}
+			Property pro = (Property) ele;
+			
+			getRelation(pro.getName() , ret ,pro.getType(), new AssociacaoSimples());
+			
 			}	
 			
-		}
+
+		if (ele.getClass().getSimpleName().equals("GeneralizationImpl")){
+			
+			Generalization get = (Generalization) ele;
+			System.out.println("qual é oname "+get.getGeneral());
+			
+			getRelation(get.getGeneral().getName() , ret ,canvas.uml.handletype(get.getGeneral().getName()),new heranca());
+			
+			}		
+	 }
 	
    	 
     	 }
@@ -146,4 +143,32 @@ public class leitor_de_UML {
 	}
      }
      }
+public void getRelation(String name , retangulo ret , Type type, Style style){
+	if (retangulos.containsKey(name)){
+	    retangulo ret1 = retangulos.get(name);
+		   
+		   Ponto p = new Ponto();
+		   Ponto p1 = new Ponto();
+		   linha l = new linha();
+		   
+		   l.ponto = p;
+		     l.ponto_fim = p1 ;	
+		    l.ponto_fim.x  = ret1.x;
+		    l.ponto_fim.y =  ret1.y +ret1.height/2 ;
+		    l.ponto.x = ret.x +ret.width;
+		    l.ponto.y = ret.y +ret.height/2;
+		    ret.linhas_inicio.add(l);
+		   
+		    ret1.linhas_fim.add(l);
+		    l.setstyle(style);
+		   page.Menu.add(l);
+	       canvas.redraw();
+	       isassociation =true ;
+	   }
+	if (isassociation==false){
+		
+	
+		ret.atributos_nomes.add(resource.getID(type)+":"+name);
+	}
+}
 }
