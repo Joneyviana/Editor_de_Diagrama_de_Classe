@@ -83,7 +83,7 @@ public linha setarumalinha(){
 	line.ponto_fim =  new Ponto();
   return line ;
 }
-public void criar_uma_linha_na_tela(retangulo ret ,retangulo ret_destino, Style style){
+public linha criar_uma_linha_na_tela(retangulo ret ,retangulo ret_destino, Style style){
 	linha line = setarumalinha(style);
 	 inicio_associacao = ret ;
 	 inicio_associacao.linhas_inicio.add(line);
@@ -95,5 +95,6 @@ line.ponto.y = ret.y +ret.height/2;
 line.ponto_fim.x = ret_destino.x + ret_destino.width/2;
 line.ponto_fim.y = ret_destino.y + ret_destino.height/2;
 page.Menu.add(line);
+ return line;
 }
 }

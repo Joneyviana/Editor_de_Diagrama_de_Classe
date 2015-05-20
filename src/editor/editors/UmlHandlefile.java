@@ -86,16 +86,10 @@ public class UmlHandlefile {
 			
 			 outputUri =  URI.createFileURI( leitor_de_UML.outputFile.getAbsolutePath() );
 				resource = new XMIResourceImpl(outputUri);	
-			    resource.setXMIVersion("20110701");
+			   
 			
-			    Map<Object, Object> options = resource.getDefaultLoadOptions();
-				options.put(XMIResource.OPTION_USE_XMI_TYPE, Boolean.TRUE);
-			    try {
-					resource.load(options);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			   
+			   
 				resource.getContents().add( sampleModel );  
 		       
 		 }else{
@@ -140,8 +134,9 @@ public EObject addclasse(String str){
   
     	indice = indice +1 ;
     }
+    System.out.println("olla só isso aqui"+resource.getID(classes.get(classes.size()-1)));
     resource.setID(classes.get(classes.size()-1),indice.toString() );
-   resource.setXMIVersion("20110701");
+   
    
     save();
   return classes.get(classes.size()-1);
@@ -172,7 +167,7 @@ public void addProperty(String text , EObject o ){
 }
 public Generalization addGeneration(EObject o,String text){
 	Generalization gene = ((Class) o).createGeneralization((Classifier) handletype(text));
-	gene.getGeneral().setName(text);
+	
 	save();
 	return gene;
 	
@@ -194,6 +189,7 @@ public Association addAssociation(EObject o,String text){
 		System.out.println("ID "+resource.getID(element));
 		//System.out.println("text" +text.substring(0, text.indexOf(":")));
 		if (resource.getID(element).equals(text))
+			
 			return element;
 		if((text.contains(":"))&&(resource.getID(element).equals(text.substring(0, text.indexOf(":"))))){
 			return element ;
@@ -206,7 +202,7 @@ public Association addAssociation(EObject o,String text){
 		dat.add( ca);
 		
 	resource.getContents().add(dat.get(dat.size()-1));
-	System.out.println("Que porra é essa "+ text);
+
 	if (text.contains(":")== true){
 	resource.setID(dat.get(dat.size()-1), text.substring(1, text.indexOf(":")));
 

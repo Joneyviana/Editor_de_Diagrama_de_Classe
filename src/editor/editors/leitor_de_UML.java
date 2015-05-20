@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLMapImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Type;
@@ -98,9 +99,9 @@ public class leitor_de_UML {
 		if (ele.getClass().getSimpleName().equals("GeneralizationImpl")){
 			
 			Generalization get = (Generalization) ele;
-			System.out.println("qual é oname "+get.getGeneral());
 			
-			getRelation(get.getGeneral().getName() , ret ,canvas.uml.handletype(get.getGeneral().getName()),new heranca());
+			
+			getRelation(canvas.uml.resource.getID(((Class)get.getGeneral())) , ret ,null,new heranca());
 			
 			}		
 	 }
@@ -146,22 +147,9 @@ public class leitor_de_UML {
 public void getRelation(String name , retangulo ret , Type type, Style style){
 	if (retangulos.containsKey(name)){
 	    retangulo ret1 = retangulos.get(name);
-		   
-		   Ponto p = new Ponto();
-		   Ponto p1 = new Ponto();
-		   linha l = new linha();
-		   
-		   l.ponto = p;
-		     l.ponto_fim = p1 ;	
-		    l.ponto_fim.x  = ret1.x;
-		    l.ponto_fim.y =  ret1.y +ret1.height/2 ;
-		    l.ponto.x = ret.x +ret.width;
-		    l.ponto.y = ret.y +ret.height/2;
-		    ret.linhas_inicio.add(l);
-		   
-		    ret1.linhas_fim.add(l);
-		    l.setstyle(style);
-		   page.Menu.add(l);
+		  linha l = canvas.criar_uma_linha_na_tela(ret, ret1, style);
+		   ret1.linhas_fim.add(l);
+		    page.Menu.add(l);
 	       canvas.redraw();
 	       isassociation =true ;
 	   }
