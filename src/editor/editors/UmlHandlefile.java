@@ -1,5 +1,6 @@
 package editor.editors;
 
+import java.awt.List;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -73,11 +75,13 @@ public class UmlHandlefile {
 	public ArrayList<EObject> classes = new ArrayList<>();
 	
 	public static XMIResource resource ;
-	private Model sampleModel ;
+	public Model sampleModel ;
 
 	private URI outputUri;
 
 	private ArrayList<Type> dat = new ArrayList<>() ;
+
+	private Object StringUtils;
 
 	public void init(){
 		 if (resource==null){
@@ -210,7 +214,7 @@ public Association addAssociation(EObject o,String text){
 	else {
 		resource.setID(dat.get(dat.size()-1), text);
 		
-	
+
 	}
 		return dat.get(dat.size()-1);
 	
@@ -218,5 +222,13 @@ public Association addAssociation(EObject o,String text){
   public void setName(String text , EObject o){
 	 ((ClassImpl) classes.get(classes.indexOf(o))).setName(text);
      save();
+  }
+  public void createoperation(EObject o,String text){
+	  String name = text.substring(1, text.indexOf("("));
+	  String resto = text.substring(name.length()+1, text.indexOf(")"));
+	 ListadeParametros lista = new ListadeParametros(resto,this);
+	
+	((Class) o).createOwnedOperation(name,lista.getlistname(), lista.getlistTypes());
+   
   }
 }

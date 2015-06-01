@@ -80,7 +80,7 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 	   setFocus();
 	   Menus menus = new Menus();
 	   Menu popupMenu = new Menu(this);
-	   menus.addMenuitems(new String[]{"Public","Private","Protected","delete classe"},popupMenu ); 
+	   menus.addMenuitems(new String[]{"Public","Private","Protected","delete classe","add method"},popupMenu ); 
 	 
 	    Menu lineMenu  = new Menu(popupMenu);
 	    Menu Protected = new Menu(popupMenu);
@@ -121,8 +121,8 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 				
 			}
 		});
-	    menus.addselelectionlistenerMultiplo(new int[]{4, 5,6,7,8,9,10,11,12,13,14,15},this);	
-
+	    menus.addselelectionlistenerMultiplo(new int[]{  5,6,7,8,9,10,11,12,13,14,15,16},this);	
+       
   this.setMenu(popupMenu);
 	  Mouseevents mouse  = new Mouseevents(this);
       addPaintListener(this);
