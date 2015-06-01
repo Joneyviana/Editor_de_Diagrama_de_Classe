@@ -122,7 +122,8 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 			}
 		});
 	    menus.addselelectionlistenerMultiplo(new int[]{  5,6,7,8,9,10,11,12,13,14,15,16},this);	
-       
+         addmethod add = new addmethod(this);
+         menus.items.get(4).addSelectionListener(add);
   this.setMenu(popupMenu);
 	  Mouseevents mouse  = new Mouseevents(this);
       addPaintListener(this);
