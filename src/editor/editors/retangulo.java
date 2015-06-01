@@ -21,12 +21,14 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GCData;
 import org.eclipse.swt.graphics.LineAttributes;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -52,8 +54,10 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 	public ArrayList<Label> labels = new ArrayList<>() ;
 	private int count;
 	private static  HashMap<String, ArrayList<String>> nomePackages = new HashMap<>() ;
-	
+	public RGB rgb ;
 	public Representação_de_classe classe ;
+	private Device device;
+	public Color backgroundcolor = null;
 	public retangulo(Composite parent, int style) {
 	
 		super(parent, style);
@@ -80,7 +84,7 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 	   setFocus();
 	   Menus menus = new Menus();
 	   Menu popupMenu = new Menu(this);
-	   menus.addMenuitems(new String[]{"Public","Private","Protected","delete classe","add method"},popupMenu ); 
+	   menus.addMenuitems(new String[]{"Public","Private","Protected","delete classe","add method","mudar cor"},popupMenu ); 
 	 
 	    Menu lineMenu  = new Menu(popupMenu);
 	    Menu Protected = new Menu(popupMenu);
@@ -121,10 +125,12 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 				
 			}
 		});
-	    menus.addselelectionlistenerMultiplo(new int[]{  5,6,7,8,9,10,11,12,13,14,15,16},this);	
+	    menus.addselelectionlistenerMultiplo(new int[]{  6,7,8,9,10,11,12,13,14,15,16,17},this);	
          addmethod add = new addmethod(this);
          menus.items.get(4).addSelectionListener(add);
-  this.setMenu(popupMenu);
+         TrocarCor cor = new TrocarCor(ret);
+         menus.items.get(5).addSelectionListener(cor);
+         this.setMenu(popupMenu);
 	  Mouseevents mouse  = new Mouseevents(this);
       addPaintListener(this);
 	  addMouseListener(mouse);
@@ -161,16 +167,45 @@ public void paintControl(PaintEvent arg0) {
 	    
 	}
 	area = new AreaDraw(0,0,width,height,1,redimensionamento);
-	new DrawRectangle(arg0 ,area ,string);
+	this.device = new Device() {
+		
+		@Override
+		public long internal_new_GC(GCData arg0) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		
+		@Override
+		public void internal_dispose_GC(long arg0, GCData arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+	}; 
+	if (rgb!=null){
+	backgroundcolor = new Color(device ,rgb);
+	}
 	
+	new DrawRectangle(arg0 ,area ,ret,string);
+	    
 	    count = 25 ;
 	    FontData fo = new FontData("helvetica", 11/area.scale_reducao, SWT.BOLD);
-	    for(String str:atributos_nomes){
+	    ArrayList<String> propriedades = new ArrayList<>();
+	    propriedades.addAll(atributos_nomes);
+	    propriedades.addAll(metodos);
+	    for (Label label:labels){
+	    	label.setVisible(false);
+	    }
+	    for(String str:propriedades){
 		   ajustar_largura(str);
 	    	final Label label = new Label(this , SWT.NONE);
 		    label.setText(str);
+	    	if (propriedades.indexOf(str)>=atributos_nomes.size()){
+	    		label.setLocation(5, (int)((height *0.65)+10));
+	    	}
+	    	else {
 	    	label.setLocation(5, (int)(height *0.03+count));
-            label.setSize(width-10, 19);
+	    	}
+	    	label.setSize(width-10, 19);
 	    	
             label.setFont(new Font(new Device() {
 	    		
@@ -210,7 +245,7 @@ public void paintControl(PaintEvent arg0) {
 				
 				@Override
 				public void handleEvent(Event arg0) {
-					//Text text = new Text(label,SWT.SINGLE);
+					
 					text.setSize(label.getBounds().width-1,label.getBounds().width-1);
 					
 				}

@@ -24,7 +24,7 @@ public class addmethod implements SelectionListener{
 		Text text  = new Text(this.ret, SWT.SINGLE);
 		text.setSize(ret.width-4, 20);
 		
-		text.setLocation(2,(int) ((int) ((ret.atributos_nomes.size())*20)+(ret.height*0.65)));
+		text.setLocation(2,(int) ((int) ((ret.metodos.size())*20)+(ret.height*0.65)));
 		
 		
 		

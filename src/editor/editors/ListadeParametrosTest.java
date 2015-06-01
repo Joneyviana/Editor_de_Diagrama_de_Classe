@@ -19,7 +19,7 @@ public class ListadeParametrosTest {
 	@Before
 	public void setUp() throws Exception {
 	
-	   lista = new ListadeParametros("numero:int , valor:double , letra:char" , new UmlHandlefile());
+	   lista = new ListadeParametros("(numero:int , valor:double , letra:char)" , new UmlHandlefile());
 	}
 
 	@After

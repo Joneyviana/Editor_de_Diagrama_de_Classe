@@ -12,12 +12,20 @@ import org.eclipse.swt.graphics.LineAttributes;
 
 public class DrawRectangle {
 
-public 	DrawRectangle(PaintEvent evt,AreaDraw area, String string){
+public 	DrawRectangle(PaintEvent evt,AreaDraw area, retangulo ret, String str){
 	int scale = area.scale_reducao;
+	
+
 	evt.gc.setLineAttributes(new LineAttributes(4/scale));
-	evt.gc.setBackground(evt.display.getSystemColor(SWT.COLOR_YELLOW));
+	
+    if((ret==null)||(ret.backgroundcolor==null)){
+    	 evt.gc.setBackground(evt.display.getSystemColor(SWT.COLOR_YELLOW));
+    }
+    else {
+    	evt.gc.setBackground(ret.backgroundcolor);
+    }
     evt.gc.setForeground(evt.display.getSystemColor(SWT.COLOR_BLACK));
-	evt.gc.drawRectangle(area.x/scale, area.y/scale, (area.width-1)/scale, ((area.height-1)+area.redimensionamento)/scale);
+    evt.gc.drawRectangle(area.x/scale, area.y/scale, (area.width-1)/scale, ((area.height-1)+area.redimensionamento)/scale);
     evt.gc.fillRectangle((area.x+2)/scale, (area.y+2)/scale, (area.width-4)/scale, ((area.height-4)+area.redimensionamento)/scale);
     
     evt.gc.drawLine(area.x/scale, area.y/scale + 25/scale,(area.width/scale)+(area.x/scale), area.y/scale + 25/scale);
@@ -39,6 +47,7 @@ public 	DrawRectangle(PaintEvent evt,AreaDraw area, String string){
 		}
 	},fo ));
     System.out.print("misericordia Deus me ajuda pelo amor de Deus");
-    evt.gc.drawText(string , (int) area.x/scale+(area.width/8)/scale, area.y/scale+ 3/scale);
+    evt.gc.drawText(str , (int) area.x/scale+(area.width/8)/scale, area.y/scale+ 3/scale);
+
 }
 }

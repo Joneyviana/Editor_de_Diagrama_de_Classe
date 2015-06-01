@@ -17,7 +17,7 @@ public UmlHandlefile uml;
 public ListadeParametros(String str , UmlHandlefile uml){
 	this.uml = uml;
     
-    parametros = str.replace(" ", "").split(",");
+    parametros = str.replace(" ", "").replace("(" ,"").replace(")","").split(",");
 	
 }
 

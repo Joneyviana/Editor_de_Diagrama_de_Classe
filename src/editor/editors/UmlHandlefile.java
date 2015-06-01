@@ -224,11 +224,11 @@ public Association addAssociation(EObject o,String text){
      save();
   }
   public void createoperation(EObject o,String text){
-	  String name = text.substring(1, text.indexOf("("));
+	  String name = text.substring(0, text.indexOf("("));
 	  String resto = text.substring(name.length()+1, text.indexOf(")"));
 	 ListadeParametros lista = new ListadeParametros(resto,this);
 	
 	((Class) o).createOwnedOperation(name,lista.getlistname(), lista.getlistTypes());
-   
+	 save();
   }
 }

@@ -101,7 +101,7 @@ public void paintControl(PaintEvent arg0) {
 	     AreaDraw area = new AreaDraw(x_diagram,y_diagram, 80, 100, 6, 0);
 	   
 	     
-	     new DrawRectangle(arg0, area, classe.name);
+	     new DrawRectangle(arg0, area,null ,  classe.name);
  
 	 }}
 @Override
