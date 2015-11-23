@@ -1,6 +1,6 @@
 package editor.editors;
 
-import org.eclipse.core.resources.IFile;
+
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IActionBars;
@@ -10,7 +10,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.IDEActionFactory;
-import org.eclipse.ui.part.FileEditorInput;
+
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
@@ -36,7 +36,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	 * @return IAction or null if editor is null.
 	 */
 	protected IAction getAction(ITextEditor editor, String actionID) {
-		System.out.println("poxa vida");
+		
 		
 		return (editor == null ? null : editor.getAction(actionID));
 	}

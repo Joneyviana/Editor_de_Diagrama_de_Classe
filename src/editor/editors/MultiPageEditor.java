@@ -1,15 +1,13 @@
 package editor.editors;
 
-import org.eclipse.swt.graphics.Rectangle;
 
-import java.io.File;
 import java.io.StringWriter;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
-import javax.sound.sampled.Line;
+
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -19,46 +17,39 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.MouseMoveListener;
-import org.eclipse.swt.events.MouseTrackListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.LineAttributes;
+
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Tracker;
+import org.eclipse.swt.widgets.ScrollBar;
+
+import org.eclipse.swt.widgets.FontDialog;
+
+
 import org.eclipse.ui.*;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.ide.IDE;
-import org.w3c.dom.css.Rect;
+
+import Graphics.Quadro_inicial;
+import Graphics.Tela;
+import Graphics.retangulo;
+import Graphics.AssociationsDesign.AssociacaoSimples;
+import Graphics.AssociationsDesign.Style;
+import UML.leitor_de_UML;
+
 
 /**
  * An example showing how to create a multi-page editor.
@@ -73,11 +64,9 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 
 	/** The text editor used in page 0. */
 	
-	private ArrayList <Ponto> risco = new ArrayList<>();
-    private ArrayList <linha> Menu = new ArrayList<>();
-	private Ponto posicao_direita_inicio;
+	
 	private TextEditor editor;
-	private boolean pressionado;
+	
 	
 	/** The font chosen in page 1. */
 	private Font font;
@@ -92,7 +81,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	private Point ponto_anterior;
 	private Display display ;
 	private Style style = new AssociacaoSimples();
-	public static IFile file;
+	public  IFile file;
 	/**
 	 * Creates a multi-page editor example.
 	 */
@@ -125,14 +114,13 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		
 		
        
-		Quadro_inicial quadro = new Quadro_inicial(getContainer(), SWT.NONE);
-		
+		Quadro_inicial quadro = new Quadro_inicial(getContainer(), SWT.NONE );
          int index = addPage(quadro.filho);
-         
+     
          file =  ((FileEditorInput) this.getEditorInput()).getFile();
      	 
-         leitor_de_UML.outputFile = new File(file.getLocationURI());
-         leitor_de_UML let = new leitor_de_UML(quadro.filho);
+         
+         leitor_de_UML let = new leitor_de_UML(quadro.filho,file);
      	 
           setPageText(index, "Properties");
 	}
@@ -225,7 +213,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 */
 	public void resourceChanged(final IResourceChangeEvent event){
 		if(event.getType() == IResourceChangeEvent.PRE_CLOSE){
-			System.out.print("messinha");
+			
 			Display.getDefault().asyncExec(new Runnable(){
 				
 				public void run(){
