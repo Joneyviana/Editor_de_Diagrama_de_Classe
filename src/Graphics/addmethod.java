@@ -7,14 +7,18 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
+import UML.UmlHandlefile;
+
 
 public class addmethod implements SelectionListener{
 
 	private retangulo ret;
 	private Text text;
+	private UmlHandlefile uml;
 
-	public addmethod(retangulo ret){
+	public addmethod(retangulo ret , UmlHandlefile uml){
 		this.ret = ret ;
+	    this.uml = uml;
 	}
 	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
@@ -34,7 +38,8 @@ public class addmethod implements SelectionListener{
 			public void handleEvent(Event arg0) {
 				if (text.getText().isEmpty()==false)
 					ret.metodos.add(text.getText()); 				
-					text.dispose();
+					uml.createoperation(ret.o, text.getText());
+				    text.dispose();
 				
 			}
 		});

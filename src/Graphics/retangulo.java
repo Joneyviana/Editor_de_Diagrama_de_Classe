@@ -118,7 +118,7 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 	   setSize(width, height);
 	   setFocus();
 	   metodomenu = new Menu(operations);
-	   addmethod add = new addmethod(this);
+	   addmethod add = new addmethod(this, tela.uml);
 	   operations.setMenu(metodomenu);
 	   adicionarmetodo = new MenuItem(metodomenu, SWT.CASCADE); 
 	   adicionarmetodo.setText("adicionar metodo");
@@ -311,7 +311,8 @@ public void widgetSelected(SelectionEvent arg0) {
 		public void handleEvent(Event arg0) {
 			if (text.getText().isEmpty()==false)
 				ret.atributos_nomes.add(text.getText()); 				
-				text.dispose();
+				tela.uml.addProperty(text.getText(), ret.o);
+			    text.dispose();
 			
 		}
 	});
