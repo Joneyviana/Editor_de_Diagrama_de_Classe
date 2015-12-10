@@ -45,7 +45,7 @@ import UML.DrawWillBeSavedInUml;
 import UML.ListadeParametros;
 
 
-public class retangulo extends DrawWillBeSavedInUml implements PaintListener, SelectionListener {
+public class retangulo extends DrawWillBeSavedInUml implements PaintListener, SelectionListener , Draw {
    
    public retangulo ret ; 
    public retangulo entrou_em= null ;
@@ -74,7 +74,8 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 		super(parent, style);
         pai = parent ;
 		string = "class";
-	   
+		  
+	
 	}
 
 	
@@ -275,15 +276,10 @@ public void paintControl(PaintEvent arg0) {
 	    		}
 	    operations.setForeground(arg0.display.getSystemColor(SWT.COLOR_BLACK));
 	    attributos.setForeground(arg0.display.getSystemColor(SWT.COLOR_BLACK)) ; 	
-	    if((ret==null)||(ret.backgroundcolor==null)){
-	    	 attributos.setBackground(arg0.display.getSystemColor(SWT.COLOR_YELLOW));
-	         operations.setBackground(arg0.display.getSystemColor(SWT.COLOR_YELLOW));
-	    }
-	    
-	    else {
+	   
+	
 	    	attributos.setBackground(ret.backgroundcolor);
-	        operations.setBackground(ret.backgroundcolor);
-	    }  
+	        operations.setBackground(ret.backgroundcolor);  
 	    count = 5 ;
           for(String str : metodos){
         	  ajustar_largura(str);
@@ -307,9 +303,18 @@ public void widgetSelected(SelectionEvent arg0) {
     arg0.getSource().toString();
     space_new_property = 25;
     ret.redraw();
-    Text text  = new Text(this, SWT.SINGLE);
+    final Text text  = new Text(this, SWT.SINGLE);
 	text.setSize(width-4, 20);
-	
+	text.addListener(SWT.DefaultSelection, new Listener() {
+		
+		@Override
+		public void handleEvent(Event arg0) {
+			if (text.getText().isEmpty()==false)
+				ret.atributos_nomes.add(text.getText()); 				
+				text.dispose();
+			
+		}
+	});
 	text.setLocation(2,((atributos_nomes.size()+1)*20)+25);
 	//space_text = 0;
 	
@@ -342,6 +347,14 @@ public int redimensionar(ArrayList<String> lista){
 	   redimensionamento = 170;
    }
 	return redimensionamento ;
+}
+
+
+
+@Override
+public void setRGB(RGB rgb) {
+	this.rgb = rgb;
+	
 }
 
 }
