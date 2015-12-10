@@ -315,9 +315,12 @@ public void widgetSelected(SelectionEvent arg0) {
 			
 		}
 	});
+	if (atributos_nomes.size()!=0){
 	text.setLocation(2,((atributos_nomes.size()+1)*20)+25);
-	//space_text = 0;
-	
+	}
+	else {
+		text.setLocation(2,((2)*20)+25);
+	}
 	String str = arg0.getSource().toString();
 
 	text.setSelection(text.getText().length());
