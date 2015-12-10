@@ -30,6 +30,7 @@ private Cursor busyCursor;
 private boolean pressionando ; 
 private Cursor aumentacursor;
 private LineComposite but;
+
 public 	Mouseevents(DrawComposite comp){
 	DrawListener  = comp ;
 	busyCursor = new Cursor(Display.getCurrent(), SWT.CURSOR_SIZEWE);
@@ -37,6 +38,7 @@ public 	Mouseevents(DrawComposite comp){
 }	
 	@Override
     public void mouseMove(MouseEvent arg0) {
+		
 		int redimensionamento =0;
 		if (DrawListener.atributos_nomes.size()>=2){
 			redimensionamento = ((DrawListener.atributos_nomes.size() -2)*19) +6;
@@ -52,16 +54,16 @@ public 	Mouseevents(DrawComposite comp){
 				  
 				       
 			        Tracker tracker = new Tracker(DrawListener.getParent(), SWT.RESIZE|SWT.LEFT|SWT.RIGHT);
-			    	tracker.setRectangles(new Rectangle[] { new Rectangle(DrawListener.x-1, DrawListener.y-1, DrawListener.width+1,DrawListener.height+1+redimensionamento), });
+			    	tracker.setRectangles(new Rectangle[] { new Rectangle(DrawListener.x-1 ,DrawListener.y-1, DrawListener.width+1, DrawListener.height+1+redimensionamento), });
 			    	tracker.setCursor(busyCursor);
 			    	tracker.open();
 			    	
 			    	
-			    	DrawListener.width = tracker.getRectangles()[0].width;
+			    	
+			    	
+			        DrawListener.width = tracker.getRectangles()[0].width;
 			    	DrawListener.x = tracker.getRectangles()[0].x;
-			    	
-			    	
-			    	DrawListener.redraw();
+			        DrawListener.redraw();
 				
 		}
 			}
@@ -78,14 +80,14 @@ public 	Mouseevents(DrawComposite comp){
 					
 					       
 				        Tracker tracker = new Tracker(DrawListener.getParent(), SWT.RESIZE|SWT.DOWN|SWT.UP|SWT.Resize);
-				    	tracker.setRectangles(new Rectangle[] { new Rectangle(DrawListener.x-1, DrawListener.y-1, DrawListener.width+1,DrawListener.height+1+redimensionamento), });
+				    	tracker.setRectangles(new Rectangle[] { new Rectangle(DrawListener.x-1 ,DrawListener.y-1, DrawListener.width+1, DrawListener.height+1+redimensionamento), });
 				    	tracker.setCursor(aumentacursor);
 				    	tracker.open();
 				    	
-				    	DrawListener.height = tracker.getRectangles()[0].height-redimensionamento ;
+				    	
+				    	
+				        DrawListener.height = tracker.getRectangles()[0].height-redimensionamento ;
 				    	DrawListener.y= tracker.getRectangles()[0].y;
-				    	
-				    	
 				    	DrawListener.redraw();
 				}
 					}
@@ -96,12 +98,12 @@ public 	Mouseevents(DrawComposite comp){
 		
 		if (pressionando){ 
 			Tracker tracker = new Tracker(DrawListener.getParent(), SWT.NONE);
-	        tracker.setRectangles(new Rectangle[] { new Rectangle( DrawListener.getLocation().x-1 ,DrawListener.getLocation().y-1, DrawListener.width+1, DrawListener.height+1+redimensionamento), });
+	        tracker.setRectangles(new Rectangle[] { new Rectangle( DrawListener.x-1 ,DrawListener.y-1, DrawListener.width+1, DrawListener.height+1+redimensionamento), });
 	        DrawListener.setCursor(null);
 	        tracker.open();
 	        Point PointOfRetangle = new Point(tracker.getRectangles()[0].x, tracker.getRectangles()[0].y);
-	        atualizar_associationsXfim(DrawListener.linhas_fim,PointOfRetangle);
-	        atualizar_associationsXInicio(DrawListener.linhas_inicio,PointOfRetangle);
+	        atualizar_associationsXfim(DrawListener.linhas_fim,PointOfRetangle, DrawListener.getLocation());
+	        atualizar_associationsXInicio(DrawListener.linhas_inicio,PointOfRetangle , DrawListener.getLocation());
 	        
 	        DrawListener.setLocation(tracker.getRectangles()[0].x,tracker.getRectangles()[0].y);
 	        DrawListener.x = tracker.getRectangles()[0].x ;
@@ -179,22 +181,22 @@ public 	Mouseevents(DrawComposite comp){
 		pressionando = false ;
 		
 	}
-private void atualizar_associationsXInicio(ArrayList<Linha> linhas , Point dimensao ){
+private void atualizar_associationsXInicio(ArrayList<Linha> linhas , Point dimensao , Point dimensao_inicial ){
 	 
 	 
 	 
 	 for(Linha linha : linhas){
-		 Point ponto = linha.difference_points(dimensao, DrawListener.getLocation());
+		 Point ponto = linha.difference_points(dimensao, dimensao_inicial);
 			linha.soma_points(linha.ponto , ponto);
 		
 	}	
 	
 	DrawListener.getParent().redraw();
 }
-private void atualizar_associationsXfim(ArrayList<Linha> linhas , Point dimensao ){
+private void atualizar_associationsXfim(ArrayList<Linha> linhas , Point dimensao , Point dimensao_incial){
 	 
 	 
-	 Point ponto = Linha.difference_points(dimensao ,  DrawListener.getLocation());
+	 Point ponto = Linha.difference_points(dimensao ,  dimensao_incial);
 	 for(Linha linha : linhas){
 		
 		linha.soma_points(linha.ponto_fim , ponto);

@@ -246,8 +246,8 @@ public void checkSubclass(){
 
 @Override
 public void paintControl(PaintEvent arg0) {
-	redimensionamento_metodos = redimensionar(metodos);
-	redimensionamento_attributos = redimensionar(atributos_nomes);
+	redimensionamento_metodos = redimensionar(metodos, operations);
+	redimensionamento_attributos = redimensionar(atributos_nomes,attributos);
 	redimensionamento_attributos += space_new_property;
 	redimensionamento_metodos += space_new_metodo;
 	if (rgb!=null){
@@ -336,16 +336,20 @@ public void  ajustar_largura(String text){
     	   width = 220;
        }
 }
-public int redimensionar(ArrayList<String> lista){
+public int redimensionar(ArrayList<String> lista, List listview){
 	int redimensionamento = 0;
 	if (lista.size()>6){
 		redimensionamento = (lista.size() -2)*7 +6;
-	    
+	    listview.getVerticalBar().setEnabled(true);
 	}
 	else {
-		if(lista.size()>=2){
-			redimensionamento= (lista.size() -1)*19 +6;
+		
+		if(lista.size()>=1){
+			redimensionamento= (lista.size() -1)*25 +6;
+			
+		
 		}
+		
 	}
    if (redimensionamento>170){
 	   redimensionamento = 170;
