@@ -14,10 +14,12 @@ import org.eclipse.swt.events.SelectionListener;
 
 import org.eclipse.swt.graphics.Device;
 
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GCData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.LineAttributes;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 
 import org.eclipse.swt.layout.GridLayout;
 
@@ -29,6 +31,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
+import org.eclipse.swt.widgets.Shell;
 
 import org.eclipse.swt.graphics.*;
 
@@ -45,7 +48,7 @@ import Graphics.AssociationsDesign.Linha;
 public class PageDiagrams {
 
 public  Tela  canvas;
-
+ 
 private ArrayList <Ponto> risco = new ArrayList<>();
 public  ArrayList <Linha> Menu = new ArrayList<>();
 public  ArrayList<retangulo> rets = new ArrayList<>();
@@ -55,6 +58,9 @@ private boolean pressionado;
 public Display display;
 private PageDiagrams page ;
 private AssociacaoSimples assoc;
+private Device device;
+
+public Color default_color;
 
 
 public PageDiagrams( final Tela canvas){
@@ -62,6 +68,21 @@ public PageDiagrams( final Tela canvas){
 	 this.canvas = canvas;
 	GridLayout layout = new GridLayout();
 	canvas.setLayoutData(layout);
+	device = new Device() {
+		
+		@Override
+		public long internal_new_GC(GCData arg0) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		
+		@Override
+		public void internal_dispose_GC(long arg0, GCData arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
+	default_color = new Color(device,canvas.rgb);
 	layout.numColumns = 2;
 	page = this;
 	
@@ -75,7 +96,7 @@ public PageDiagrams( final Tela canvas){
 				
 		         
 		          public void paintControl(PaintEvent e) {
-		        	e.gc.setLineAttributes(new LineAttributes(3));
+		        	e.gc.setLineAttributes(new LineAttributes(2));
 		        	e.gc.textExtent("fdf");
 		           
 		        	e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_BLACK));
@@ -244,43 +265,22 @@ Listener listener = new Listener() {
 
 
 
-			private Device device;
+	
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 			
-						retangulo ret = new retangulo(canvas, SWT.V_SCROLL | SWT.H_SCROLL );
+						retangulo ret = new retangulo(canvas, SWT.NONE );
                            EObject o = canvas.uml.addclasse("class");                    
-                          
+                            
                    		ret.o = o;                    
                              ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y,null);
-                           
+                           ret.backgroundcolor = default_color;
                              rets.add(ret);
-                             int x1 = canvas.getSize().x;
+                             
                              
                       	 
-						 
-						 
-						 int y1 = canvas.getSize().y ;
-						 device = new Device() {
-								
-								@Override
-								public long internal_new_GC(GCData arg0) {
-									// TODO Auto-generated method stub
-									return 0;
-								}
-								
-								@Override
-								public void internal_dispose_GC(long arg0, GCData arg1) {
-									// TODO Auto-generated method stub
-									
-								}
-							};
-						 
 						
-						 //canvas.pack();
-					    //canvas.setSize(x1, y1);
-			           canvas.redraw();
 			};
 				
 			@Override
@@ -295,7 +295,10 @@ Listener listener = new Listener() {
 	   
 	    Menu lineMenu  = new Menu(popupMenu);
 	    refreshItem.setMenu(lineMenu);
-
+	    MenuItem mudarCorDiagrama  = new MenuItem(popupMenu,SWT.NONE );
+	    mudarCorDiagrama.setText("Mudar cor das entidades");
+	    TrocarCor cor = new TrocarCor(canvas);
+	    mudarCorDiagrama.addSelectionListener(cor);
 	    MenuItem shortcutItem = new MenuItem(lineMenu, SWT.NONE);
 	    shortcutItem.setText("herança");
 	    shortcutItem.addSelectionListener(new SelectionListener() {
@@ -384,6 +387,12 @@ Listener listener = new Listener() {
 
 	    canvas.setMenu(popupMenu);
 }
+
+
+
+
+
+
 
 
 }
