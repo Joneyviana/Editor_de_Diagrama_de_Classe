@@ -29,7 +29,7 @@ public DrawComposite DrawListener ;
 private Cursor busyCursor;
 private boolean pressionando ; 
 private Cursor aumentacursor;
-private LineComposite but;
+
 
 public 	Mouseevents(DrawComposite comp){
 	DrawListener  = comp ;

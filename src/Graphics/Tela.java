@@ -3,7 +3,11 @@ package Graphics;
 import java.util.ArrayList;
 
 
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.GCData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.RGB;
 
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -19,15 +23,16 @@ import UML.DrawWillBeSavedInUml;
 import UML.UmlHandlefile;
 
 
-public class Tela extends Canvas{
+public class Tela extends Canvas implements Draw{
 	public  Image image;  
 	public Composite pai ;
 	public DrawWillBeSavedInUml inicio_associacao;
 	private DrawWillBeSavedInUml fim_associacao;
 	public UmlHandlefile uml ;
-	public LineComposite little_painel ;
+	
 	public Style style;
 	public PageDiagrams page ;
+	public RGB rgb = new RGB(100, 200, 255);
 	public Tela(Composite parent, int style) {
 		super(parent, style);
 		this.style = new AssociacaoSimples() ;
@@ -107,5 +112,29 @@ line.ponto_fim.x = ret_destino.x + ret_destino.width/2;
 line.ponto_fim.y = ret_destino.y + ret_destino.height/2;
 page.Menu.add(line);
  return line;
+}
+
+
+@Override
+public void setRGB(RGB rgb) {
+	this.rgb = rgb ;
+	page.default_color = new Color(new Device() {
+		
+		@Override
+		public long internal_new_GC(GCData arg0) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		
+		@Override
+		public void internal_dispose_GC(long arg0, GCData arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+	}, rgb);
+	for(retangulo ret : page.rets){
+		ret.backgroundcolor = page.default_color;
+		ret.redraw();
+	}
 }
 }

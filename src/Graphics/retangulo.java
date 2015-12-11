@@ -107,6 +107,8 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 		}; 
 	  attributos.setFont(new Font(device, fo));
 	  operations.setFont(new Font(device, fo));
+	  operations.getVerticalBar().setEnabled(false);
+	  attributos.getVerticalBar().setEnabled(false);
 	  if (classe !=null){
 	  
 	  
@@ -343,7 +345,7 @@ public int redimensionar(ArrayList<String> lista, List listview){
 	    listview.getVerticalBar().setEnabled(true);
 	}
 	else {
-		
+		listview.getVerticalBar().setEnabled(false);
 		if(lista.size()>=1){
 			redimensionamento= (lista.size() -1)*25 +6;
 			
