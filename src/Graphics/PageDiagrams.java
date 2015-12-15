@@ -404,8 +404,13 @@ Listener listener = new Listener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
+				if (para_ser_deletada.asso!=null){
 				canvas.uml.removeclasse(para_ser_deletada.asso.getMemberEnds().get(0));
 				canvas.uml.removeclasse(para_ser_deletada.asso);
+				}
+				else {
+					canvas.uml.removeclasse(para_ser_deletada.gene);
+				}
 				Menu.remove(para_ser_deletada);
 				canvas.redraw();
 				

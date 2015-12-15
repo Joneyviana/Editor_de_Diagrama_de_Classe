@@ -190,18 +190,9 @@ public class retangulo extends DrawWillBeSavedInUml implements PaintListener, Se
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				tela.uml.removeclasse(o);
-	            for(Linha li : linhas_inicio){
-	            	tela.page.Menu.remove(li);
-	            	if (li.asso!=null)
-	            	tela.uml.removeclasse(li.asso);
-	            	
-	            }
-	            for(Linha li : linhas_fim){
-	            	tela.page.Menu.remove(li);
-	            	if (li.asso!=null)
-	            	tela.uml.removeclasse(li.asso);
-	            	
-	            }
+	            deleta_linha(linhas_inicio);
+	            deleta_linha(linhas_fim);
+	           
 	            getParent().redraw();
 	            ret.dispose();
 				
@@ -366,6 +357,17 @@ public void setRGB(RGB rgb) {
 	this.rgb = rgb;
 	
 }
-
+public void deleta_linha(ArrayList<Linha> linhas){
+	 for(Linha li : linhas){
+     	tela.page.Menu.remove(li);
+     	if (li.asso!=null){
+        tela.uml.removeclasse(li.asso.getMemberEnds().get(0));
+     	tela.uml.removeclasse(li.asso);}
+     	else {
+     		if (li.gene!=null){
+     			tela.uml.removeclasse(li.gene);
+     		}
+     }}
+}
 }
 
