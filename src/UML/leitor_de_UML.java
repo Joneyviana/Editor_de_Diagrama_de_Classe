@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 import org.eclipse.swt.SWT;
 
+import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.NamedElement;
@@ -81,6 +82,7 @@ public class leitor_de_UML {
 	 retangulo ret = 	new retangulo(canvas, SWT.NONE);
 	 ret.string = ((ClassImpl) elemento).getName();
 	 ret.o = elemento ;
+	 ret.backgroundcolor= page.default_color;
 	 ret.definir_ponto(x, y,null);	
 	 retangulos.put(ret.string, ret);
 	 page.rets.add(ret);
@@ -104,8 +106,8 @@ public class leitor_de_UML {
 		if (ele.getClass().getSimpleName().equals("PropertyImpl")){
 			
 			Property pro = (Property) ele;
-			
-			getRelation(pro.getName() , ret ,pro.getType(), new AssociacaoSimples(),pro.getVisibility());
+		
+			getRelation(pro.getName() , ret ,pro.getAssociation(), new AssociacaoSimples(),pro.getVisibility());
 			
 			}	
 			
@@ -115,7 +117,7 @@ public class leitor_de_UML {
 			Generalization get = (Generalization) ele;
 			
 			
-			getRelation(canvas.uml.resource.getID(((Class)get.getGeneral())) , ret ,null,new heranca(),null);
+			getRelation(canvas.uml.resource.getID(((Class)get.getGeneral())) , ret ,get,new heranca(),null);
 			
 			}		
 		if (ele.getClass().getSimpleName().equals("OperationImpl")){
@@ -171,13 +173,22 @@ public class leitor_de_UML {
 	}
      }
      }
-public void getRelation(String name , retangulo ret , Type type, Style style , VisibilityKind visibilidade){
+public void getRelation(String name , retangulo ret ,  EObject type, Style style , VisibilityKind visibilidade){
 	if (retangulos.containsKey(name)){
 	    retangulo ret1 = retangulos.get(name);
 		  Linha l = canvas.criar_uma_linha_na_tela(ret, ret1, style);
 		   ret1.linhas_fim.add(l);
-		    page.Menu.add(l);
-	       canvas.redraw();
+		   ret.linhas_inicio.add(l); 
+		   System.out.print("Esta é a classe"+style.getClass().getSimpleName());
+		   if (style.getClass().getSimpleName().equals("heranca")){
+			   l.gene = (Generalization) type;
+		   }
+		   else {
+			   l.asso = (Association) type;
+		        
+		   }
+		   page.Menu.add(l);
+		   canvas.redraw();
 	       isassociation =true ;
 	   }
 	if (isassociation==false){

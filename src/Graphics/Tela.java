@@ -110,7 +110,8 @@ line.ponto.x = ret.x +ret.width/2;
 line.ponto.y = ret.y +ret.height/2;
 line.ponto_fim.x = ret_destino.x + ret_destino.width/2;
 line.ponto_fim.y = ret_destino.y + ret_destino.height/2;
-page.Menu.add(line);
+
+
  return line;
 }
 

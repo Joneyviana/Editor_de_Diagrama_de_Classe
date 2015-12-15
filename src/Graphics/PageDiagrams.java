@@ -55,7 +55,7 @@ public  ArrayList <Linha> Menu = new ArrayList<>();
 public  ArrayList<retangulo> rets = new ArrayList<>();
 private Ponto posicao_direita_inicio;
 private boolean pressionado;
-
+private Linha para_ser_deletada;
 public Display display;
 private PageDiagrams page ;
 private AssociacaoSimples assoc;
@@ -64,6 +64,8 @@ private Device device;
 public Color default_color;
 
 private Color Color;
+
+private MenuItem deleteItem;
 
 
 public PageDiagrams( final Tela canvas){
@@ -184,7 +186,14 @@ Listener listener = new Listener() {
 			    posicao_direita_inicio = new Ponto() ;
 				posicao_direita_inicio.x = arg0.x ;
 			    posicao_direita_inicio.y = arg0.y ;
-			    line.style_linha.verificarLinha(page, posicao_direita_inicio);
+			    para_ser_deletada = line.style_linha.verificarLinha(page, posicao_direita_inicio);
+			    if (para_ser_deletada!=null){
+			    
+			    	deleteItem.setEnabled(true);
+			    }
+			    else {
+			    	deleteItem.setEnabled(false);
+			    }
 			}
 			else{    	
 			 Ponto ponto = new Ponto();
@@ -388,10 +397,27 @@ Listener listener = new Listener() {
 				
 			}
 		});
-	    MenuItem deleteItem = new MenuItem(popupMenu, SWT.NONE);
+	    deleteItem = new MenuItem(popupMenu, SWT.NONE);
 	    deleteItem.setText("Delete relationship");
         deleteItem.setEnabled(false); 
-	    canvas.setMenu(popupMenu);
+	    deleteItem.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				canvas.uml.removeclasse(para_ser_deletada.asso.getMemberEnds().get(0));
+				canvas.uml.removeclasse(para_ser_deletada.asso);
+				Menu.remove(para_ser_deletada);
+				canvas.redraw();
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        canvas.setMenu(popupMenu);
 }
 
 
