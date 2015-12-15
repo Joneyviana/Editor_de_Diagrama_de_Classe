@@ -23,6 +23,27 @@ public  void setstyle(Style style){
 	style_linha = style ;	
     
 }
+private float getCoefienteAngular(){
+	return (ponto_fim.y - ponto.y)/(ponto_fim.x-ponto_fim.x);
+	
+}
+private float getCoefienteLinear(){
+	return ponto.y -ponto.x; 
+	
+}
+private float y(float x){
+	return  getCoefienteAngular()*x + getCoefienteLinear();
+	
+}
+public boolean ispointontheline(Ponto p){
+	if((p.y<ponto.y)||(p.y<ponto_fim.y)){
+		if (ponto.y== y(ponto.x)){
+			return true;
+		}
+	  return false;
+	}
+	return false;
+}
 public static boolean ispontodentrodequadrado(Ponto p ,int x , int y  ,int  width , int height ){
 	if ((p.x>=x-6)&&(p.y>=y-6)&&(p.x<=x+width+6)&&(p.y<=y+height+6))
 	return true ;
@@ -33,6 +54,7 @@ public void change_ponto_fim(Point p ){
 	ponto_fim.x = p.x;
 	ponto_fim.y = p.y;
 }
+
 public static Point difference_points(Point ponto, Point subtractor){
 	Point newpoint = new Point(ponto.x,ponto.y);
 	newpoint.x = ponto.x - subtractor.x;

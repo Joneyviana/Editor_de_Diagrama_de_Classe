@@ -16,11 +16,21 @@ public abstract void addfeature(GC gc ,Linha l) ;
 public retangulo verfificaretangulo(PageDiagrams p,Ponto ponto){
 	for(retangulo ret :p.rets){
 		if (ret !=null){
-		if(Linha.ispontodentrodequadrado(ponto, ret.getLocation().x, ret.getLocation().y, ret.getSize().x, ret.getSize().y)){
+		    
+			if(Linha.ispontodentrodequadrado(ponto, ret.x, ret.y, ret.width, ret.height+ret.redimensionamento_attributos+ret.redimensionamento_metodos)){
 			
 			return ret;
 		}}
 	}
   return null ;
+}
+public  Linha verificarLinha(PageDiagrams p , Ponto ponto){
+	for(Linha linha :p.Menu){
+	  if(linha.ispointontheline(ponto)){
+		  return linha ;
+	  }
+
+	}
+    return null;
 }
 }

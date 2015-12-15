@@ -1,7 +1,7 @@
 package Graphics;
 
 import java.util.ArrayList;
-
+import Sample.*;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
@@ -41,6 +41,7 @@ import Graphics.AssociationsDesign.Composicao;
 import Graphics.AssociationsDesign.Ponto;
 import Graphics.AssociationsDesign.heranca;
 import Graphics.AssociationsDesign.Linha;
+import Sample.Flowchart;
 
 
 
@@ -61,6 +62,8 @@ private AssociacaoSimples assoc;
 private Device device;
 
 public Color default_color;
+
+private Color Color;
 
 
 public PageDiagrams( final Tela canvas){
@@ -83,6 +86,7 @@ public PageDiagrams( final Tela canvas){
 		}
 	};
 	default_color = new Color(device,canvas.rgb);
+	Color =  new Color(device,new RGB(10,10 ,10));
 	layout.numColumns = 2;
 	page = this;
 	
@@ -97,8 +101,8 @@ public PageDiagrams( final Tela canvas){
 		         
 		          public void paintControl(PaintEvent e) {
 		        	e.gc.setLineAttributes(new LineAttributes(2));
-		        	e.gc.textExtent("fdf");
-		           
+		        	
+		        	
 		        	e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_BLACK));
 		            e.gc.setForeground(e.display.getSystemColor(SWT.COLOR_BLACK));
 		            
@@ -171,9 +175,7 @@ Listener listener = new Listener() {
 
 		@Override
 		public void handleEvent(Event arg0) {
-			  if ( canvas.little_painel!=null){
-		        	canvas.little_painel.dispose();
-		        }
+			 
 			  Linha line = canvas.setarumalinha();
 			risco.clear();
 			Menu.add(line);
@@ -182,6 +184,7 @@ Listener listener = new Listener() {
 			    posicao_direita_inicio = new Ponto() ;
 				posicao_direita_inicio.x = arg0.x ;
 			    posicao_direita_inicio.y = arg0.y ;
+			    line.style_linha.verificarLinha(page, posicao_direita_inicio);
 			}
 			else{    	
 			 Ponto ponto = new Ponto();
@@ -267,6 +270,7 @@ Listener listener = new Listener() {
 
 	
 
+		
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 			
@@ -277,8 +281,8 @@ Listener listener = new Listener() {
                              ret.definir_ponto(posicao_direita_inicio.x, posicao_direita_inicio.y,null);
                            ret.backgroundcolor = default_color;
                              rets.add(ret);
-                             
-                             
+                           
+                           
                       	 
 						
 			};
@@ -316,6 +320,7 @@ Listener listener = new Listener() {
 			}
 		});
 	    MenuItem iconItem = new MenuItem(lineMenu, SWT.NONE);
+	   
 	    iconItem.setText("Associação Simples");
 	    iconItem.addSelectionListener(new SelectionListener() {
 			
@@ -336,6 +341,7 @@ Listener listener = new Listener() {
 	    
 	    MenuItem agregacao = new MenuItem(lineMenu, SWT.NONE);
 	    agregacao.setText("Agregação");
+	   
 	    agregacao.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -383,8 +389,8 @@ Listener listener = new Listener() {
 			}
 		});
 	    MenuItem deleteItem = new MenuItem(popupMenu, SWT.NONE);
-	    deleteItem.setText("Delete");
-
+	    deleteItem.setText("Delete relationship");
+        deleteItem.setEnabled(false); 
 	    canvas.setMenu(popupMenu);
 }
 
