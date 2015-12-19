@@ -18,26 +18,43 @@ public Association asso;
 public Generalization gene;
 public boolean ispontilhado = false;
 
+public  float variacao_em_x(){
+	return ponto_fim.x - ponto.x;
+	
+}
+
+private float variacao_em_y(){
+	return ponto_fim.y - ponto.y;
+}
+
+
+
 public  void setstyle(Style style){
  
 	style_linha = style ;	
     
 }
-private float getCoefienteAngular(){
-	return (ponto_fim.y - ponto.y)/(ponto_fim.x-ponto_fim.x);
+private float getInclinacaoDaReta(){
+	
+	System.out.println("variação em x:"+variacao_em_x());
+	System.out.println("variação em Y:"+variacao_em_y());
+	
+		return variacao_em_y()/variacao_em_x();
+	
+
 	
 }
-private float getCoefienteLinear(){
-	return ponto.y -ponto.x; 
-	
-}
-private float y(float x){
-	return  getCoefienteAngular()*x + getCoefienteLinear();
+private int y(float x){
+	return   (int) ((getInclinacaoDaReta()*(x -ponto.x))+ ponto.y);
 	
 }
 public boolean ispointontheline(Ponto p){
-	if((p.y<ponto.y)||(p.y<ponto_fim.y)){
-		if (ponto.y== y(ponto.x)){
+	
+	System.out.println("pontoy: "+p.y +"  resultado: "+y(p.x)   );
+	
+	if((p.y<=ponto.y)||(p.y<=ponto_fim.y)){
+		
+		if (6>= Math.abs(p.y-(y(p.x)))){
 			return true;
 		}
 	  return false;

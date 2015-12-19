@@ -40,6 +40,8 @@ public class addmethod implements SelectionListener{
 					ret.metodos.add(text.getText()); 				
 					uml.createoperation(ret.o, text.getText());
 				    text.dispose();
+				    ret.space_new_metodo = 0;
+				    ret.redraw();
 				
 			}
 		});

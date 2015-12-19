@@ -273,13 +273,12 @@ public void paintControl(PaintEvent arg0) {
 	
 	    	attributos.setBackground(ret.backgroundcolor);
 	        operations.setBackground(ret.backgroundcolor);  
-	    count = 5 ;
           for(String str : metodos){
         	  ajustar_largura(str);
         	  operations.add(str);
           }
 	    setLocation(x,y);
-		setSize(width, height+redimensionamento_attributos + redimensionamento_metodos);
+	    setSize(width, height+redimensionamento_attributos + redimensionamento_metodos);
 		
 	
 	
@@ -306,15 +305,14 @@ public void widgetSelected(SelectionEvent arg0) {
 				ret.atributos_nomes.add(text.getText()); 				
 				tela.uml.addProperty(text.getText(), ret.o);
 			    text.dispose();
-			
+			    space_new_property = 0;
+			    redraw();
 		}
 	});
-	if (atributos_nomes.size()!=0){
-	text.setLocation(2,((atributos_nomes.size()+1)*20)+25);
-	}
-	else {
-		text.setLocation(2,((2)*20)+25);
-	}
+	
+	text.setLocation(2,attributos.getSize().y+25);
+	
+	
 	String str = arg0.getSource().toString();
 
 	text.setSelection(text.getText().length());
@@ -361,8 +359,10 @@ public void deleta_linha(ArrayList<Linha> linhas){
 	 for(Linha li : linhas){
      	tela.page.Menu.remove(li);
      	if (li.asso!=null){
-        tela.uml.removeclasse(li.asso.getMemberEnds().get(0));
-     	tela.uml.removeclasse(li.asso);}
+     		if (li.asso.getMemberEnds().isEmpty() == false){
+     		tela.uml.removeclasse(li.asso.getMemberEnds().get(0));
+     		}
+     		tela.uml.removeclasse(li.asso);}
      	else {
      		if (li.gene!=null){
      			tela.uml.removeclasse(li.gene);
